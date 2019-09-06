@@ -1,0 +1,24 @@
+Cockpit path:
+cd b/Frontend_Webbutveckling/Webbutveckling_CMS/cms_labbredo/cmsredouppgift
+
+Adminsida:	http://192.168.99.100:8080/
+User:		admin
+Password:	admin
+
+Frontend i react JSX /cmsredouppgift
+
+API url:
+
+
+headers: { 'Cockpit-Token': 3dcadbb31033dd704673a595544b15}
+
+FH Stationär:
+Start av docker Cocokpit backend:
+docker start e4ada2a066b6ea5bafe29399cf6178f1de0a320fe838dcbcadb9a33c205aa75b
+
+FH Laptop:
+Start av docker Cocokpit backend
+docker start 6692f5d87987423e213e0593d75c1b964e46e17881640cd9771dc251b4119d56
+
+
+
