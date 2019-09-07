@@ -95,7 +95,7 @@ body{
 
 /* ============== Authors ============== */
 .productHeadImg{
-  width: 100px;
+  width: 50px;
   margin-left: calc(50% - 50px);
 }
 #authorsAll{

@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import axios from 'axios';
-import { isArrayExpression } from '@babel/types';
-import { isArray, log } from 'util';
 
 export let ProductList = (props) => {
   let [ incommingProduct, setincommingProduct ] = useState([]);
   let [ productTotal, setproductTotal ] = useState(0);
-  let [ pageNr, setPageNr ] = useState(1);
+  let [ pageNr, setPageNr ] = useState(2);
 
   let [changeSkip, setChangeSkip ] = useState(0);
 
@@ -20,30 +18,29 @@ export let ProductList = (props) => {
 
   useEffect(() =>{
     // Get products
-    axios.get('https://cmstenta.devspace.host/api/collections/get/products' 
-    //?skip=${changeSkip}&limit=${productLimit}`
+    axios.get(`https://cmstenta.devspace.host/api/collections/get/products?skip=${changeSkip}&limit=${productLimit}`
     , {
         headers: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e' }
     })
     .then(response => {
-      console.log(response.data.entries);
+      console.log(response);
       setincommingProduct(response.data.entries);
-      //setproductTotal(response.data.total)
+      setproductTotal(response.data.total)
     })
     .catch((error) => {
       //console.log(error);
     });
-  }, []);
+  }, [changeSkip]);
   
 
-  /* function inputSearchArticle(e) {
+ /*  function inputSearchArticle(e) {
     let targetArticle = e.target.value;
     setSearchArticle(targetArticle);
   }
-   let filterArticle = incommingProduct.filter((articleListData) => {
+  let filterArticle = incommingProduct.filter((articleListData) => {
      return articleListData.title.includes(searchArticle)
     }
-  )
+  ) */
   function setPageDecrease() {
     pages = pageNr - 1;
     getIntoPage = (pageNr - 1)*productLimit-productLimit; //Calculate page´s
@@ -62,8 +59,8 @@ export let ProductList = (props) => {
       setPageNr(pages);
       setChangeSkip(getIntoPage);
     }
-  } */
-  console.log(incommingProduct);
+  }
+  console.log(pageNr);
   
   return(
     <>
@@ -105,11 +102,7 @@ export let ProductList = (props) => {
       </div>
         <section id="pageControlContainer">
           <section id="setPageContainer">
-            <button
-            // onClick={ setPageDecrease }
-            > - </button> <p id="sideNr">{ pageNr }</p> <button
-            // onClick={ setPageIncrease }
-            >+</button>            
+            <button onClick={ setPageDecrease }>-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease }>+</button>            
           </section>
         </section>
     </>
