@@ -1,0 +1,129 @@
+/* ============== Generall ============== */
+body{
+  background-color: lightgrey;
+}
+.headLine{
+  position: relative;
+  top: -34px;
+  left: 100px;
+  overflow-x: auto;
+  font-weight: bold;
+}
+.page{
+  position: relative;
+  top: 66px;
+  width: 100%;
+  color: black;
+}
+
+/* ============== Main App ============== */
+#appBody{
+  margin-left: calc(50% - 300px);
+  margin-top: 10%;
+  width: 600px;
+  background-color: white;
+  border-radius: 30px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px; 
+  padding: 5px 10px 97px 10px;
+}
+#headLinks{
+  margin-top: 35px;
+}
+
+/* ============== Products List ============== */
+#inputSearchContainer{
+  position: relative;
+  top: -72px;
+  left: 366px;
+}  
+.inputWitdhSearch{
+  width: 100px;
+  height: 20px;
+}  
+.pageProductsList{
+  position: relative;
+  top: 0px;
+  width: 100%;
+  height: 39.5vh;
+  color: black;
+}  
+#listGetting{
+  position: relative;
+  padding-bottom: 70px;
+  font-size: 25px;
+  text-align: center;
+}  
+#pageControlContainer{
+  position: absolute;
+  width: 300px;
+  left: calc(50% - 150px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: right;
+}
+#setPageContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 90px;
+}
+#setPageContainer button{
+  width: 25px;
+  height: 30px;
+}
+#sideNr{
+  margin-top: 2px;
+  font-size: 20px;
+}
+.inputSideNr{
+  margin-top: 12px;
+  margin-left: 10px;
+  width: 40px;
+  height: 20px;
+}
+
+/* ============== ArticleDetails ============== */
+#articlesDes{
+  border: none;
+  background-color: white;
+  overflow-y: scroll;
+  height: 25vh;
+}
+
+/* ============== Authors ============== */
+.productHeadImg{
+  width: 100px;
+  margin-left: calc(50% - 50px);
+}
+#authorsAll{
+  width: 100%;
+}
+
+/* ==============  Table style ============== */
+#products {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: -80px;
+  margin-bottom: 14px
+}
+#products td, #products th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#products tr:nth-child(even){
+  background-color: #f2f2f2;
+}
+#products tr:hover{
+  background-color: #ddd;
+}
+#products th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #4CAF50;
+  color: white;
+}
