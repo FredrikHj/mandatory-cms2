@@ -1,60 +1,60 @@
 import React, { useState, useEffect } from 'react';
-import {Helmet} from "react-helmet";
 import axios from 'axios';
-import ReactMarkdown from 'react-markdown';
-
 
 export let ProductDetail = (props) => {
-  let [ incommingArticle, setIncomminArticle ] = useState(null);
+  let [ incommingProduct, setIncomminngProduct ] = useState(null);
+  let productId = props.match.params.id;
   useEffect(() => {
-    let articleId = props.match.params.id;
 
     // Get Articles
-    axios.get('https://cmslabb1.devspace.host/api/collections/get/Artiklar?filter[_id]=' + articleId, {
+    axios.get('https://cmstenta.devspace.host/api/collections/get/products?filter[_id]=' + productId, {
     headers: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e}' }
   })
     .then(response => {
-      //console.log(response.data.entries[0]);
-      setIncomminArticle(response.data.entries[0]);
+      console.log(response.data.entries[0]);
+      setIncomminngProduct(response.data.entries[0]);
     })
     .catch((error) => {
       //console.log(error);
     });
   }, []);  
  
-  if (!incommingArticle) {
+  if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
   }
 
-  // Fix the choosen Articles title
-  let choosenTitle = incommingArticle.title;
+  console.log(productId);
+  
   return(       
     <>
-      <p className="headLine">{ 'Författarblogg - ' + choosenTitle }</p>
       <div className="page">
-        <Helmet>
-          <meta charSet="utf-8" />  
-          <title>{ 'Författarblogg' + ' - ' + choosenTitle }</title>
-        </Helmet>
-        <table id="articles">
+        <table id="products">
           <thead>
-            <tr><th>Titel</th><th>Författare</th><th>Datum</th></tr>
+            <tr>
+              <th>Produktnamn</th><th>Pris</th><th>Köpeinformation</th>
+            </tr>
           </thead>
           <tbody>
             <tr>
-              <td>{ incommingArticle.title }</td>
-              <td>{ incommingArticle.author[0].display.split(',') }</td>
-              <td>{ incommingArticle.published_on }</td>
-            </tr>
-            <tr>
-              <th colSpan="10">Beskrivnning</th>
-            </tr>
-            <tr>
-                <td colSpan="10">
-                  <section id="articlesDes">  
-                    <ReactMarkdown>{ incommingArticle.body}</ReactMarkdown>
+              <td>{ incommingProduct.name }</td>
+              <td>{ incommingProduct.price + ' kr' }</td>
+              <td>
+                <section id="buyProduktContainer">
+                  <section id="buyProdukt">
+                    <p id="">Köp:</p><input id="buyProduktInput" type="number"/>
+                    <button id="addBasteBtn">Lägg i Varukorgen</button>
                   </section>
-                </td>
+                  <p id="inStock">{ 'Antal i lager: ' + 'ewf ' }</p>               
+                </section>
+              </td> 
+            </tr>
+            <tr><td colSpan="10">Beskrivnning</td></tr>
+            <tr><td colSpan="10">{'Beskrivnning'}</td></tr>
+            <tr><th>Bilder</th></tr>
+            <tr>
+              <td colSpan="10">
+                few
+              </td>
             </tr>
           </tbody>
         </table>

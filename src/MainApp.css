@@ -4,21 +4,25 @@ body{
 }
 .headLine{
   position: relative;
-  top: -34px;
-  left: 100px;
-  overflow-x: auto;
+  width: 257px;
+  top: -31px;
+  left: 94px;
   font-weight: bold;
+  text-align: center;
+  font-size: 36px;
 }
 .page{
   position: relative;
-  top: 66px;
+  top: -15px;
   width: 100%;
+  height: 39.5vh;
   color: black;
 }
 
 /* ============== Main App ============== */
 #appBody{
   margin-left: calc(50% - 300px);
+  height: 425px;
   margin-top: 10%;
   width: 600px;
   background-color: white;
@@ -26,16 +30,17 @@ body{
   padding-right: 10px;
   padding-left: 10px;
   padding-top: 5px; 
-  padding: 5px 10px 97px 10px;
+  padding: 5px 10px 10px;
 }
 #headLinks{
-  margin-top: 35px;
+  position: relative;
+  top: -94px;
 }
 
 /* ============== Products List ============== */
 #inputSearchContainer{
   position: relative;
-  top: -72px;
+  top: -134px;
   left: 366px;
 }  
 .inputWitdhSearch{
@@ -44,7 +49,7 @@ body{
 }  
 .pageProductsList{
   position: relative;
-  top: 0px;
+  top: -60px;
   width: 100%;
   height: 39.5vh;
   color: black;
@@ -56,8 +61,9 @@ body{
   text-align: center;
 }  
 #pageControlContainer{
-  position: absolute;
+  position: relative;
   width: 300px;
+  top: -70px;
   left: calc(50% - 150px);
   display: flex;
   flex-direction: row;
@@ -85,19 +91,60 @@ body{
   height: 20px;
 }
 
-/* ============== ArticleDetails ============== */
-#articlesDes{
+/* ============== ProductDetails ============== */
+#productDes{
   border: none;
   background-color: white;
   overflow-y: scroll;
   height: 25vh;
 }
-
+#buyProduktContainer{
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#buyProdukt{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+#buyProduktInput{
+  position: relative;
+  width: 50px;
+  height: 20px;
+  top: 13px;
+  left: 10px;
+}
+#addBasteBtn{
+  position: relative;
+  width: 124px;
+  height: 20px;
+  top: 15px;
+  left: 30px;
+}
+#inStock{
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 168px;
+  top: 79px;
+  left: 369px;
+  font-size: 12px;
+}
 /* ============== Authors ============== */
 .productHeadImg{
-  width: 50px;
-  margin-left: calc(50% - 50px);
+  width: 40px;
+  margin-left: calc(50% - 20px);
 }
+/* .productHeadImgTd:hover{
+  transform: scale(10);
+  position: absolute;
+  top: 10px;
+  left: 170px;
+  z-index: 1;
+} */
 #authorsAll{
   width: 100%;
 }

@@ -23,7 +23,7 @@ class MainApp extends Component {
         <title>{'Författarblogg'}</title>
         </Helmet>
         <div id="appBody">
-          
+         <p className="headLine">Webhshopp</p>
           <div id="headLinks">
             <Link to="/"><p>Produktlistan</p></Link>
             {/* <Link to="/Add"><p>Lägga till</p></Link> */}
