@@ -27,6 +27,7 @@ export let ProductDetail = (props) => {
   
   return(       
     <>
+    
       <div className="page">
         <table id="products">
           <thead>
@@ -36,7 +37,7 @@ export let ProductDetail = (props) => {
           </thead>
           <tbody>
             <tr>
-              <td>{ incommingProduct.name }</td>
+              <td>{ incommingProduct.name }></td>
               <td>{ incommingProduct.price + ' kr' }</td>
               <td>
                 <section id="buyProduktContainer">
@@ -48,8 +49,9 @@ export let ProductDetail = (props) => {
                 </section>
               </td> 
             </tr>
+            <br></br>
             <tr><td colSpan="10">Beskrivnning</td></tr>
-            <tr><td colSpan="10">{'Beskrivnning'}</td></tr>
+            <tr><td colSpan="10">{ incommingProduct.description }</td></tr>
             <tr><th>Bilder</th></tr>
             <tr>
               <td colSpan="10">

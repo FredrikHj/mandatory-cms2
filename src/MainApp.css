@@ -3,6 +3,7 @@ body{
   background-color: lightgrey;
 }
 .headLine{
+  border: 1px solid;
   position: relative;
   width: 257px;
   top: -31px;
@@ -63,7 +64,7 @@ body{
 #pageControlContainer{
   position: relative;
   width: 300px;
-  top: -70px;
+  top: 20px;
   left: calc(50% - 150px);
   display: flex;
   flex-direction: row;
@@ -132,6 +133,9 @@ body{
   top: 79px;
   left: 369px;
   font-size: 12px;
+}
+#descDistance{
+  margin-top: 20px;
 }
 /* ============== Authors ============== */
 .productHeadImg{
