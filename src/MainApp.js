@@ -24,10 +24,9 @@ class MainApp extends Component {
         <title>{'Författarblogg'}</title>
         </Helmet>
         <div id="appBody">
-         <p className="headLine" style={(this.state.headLine === ProductDetail) ? }>Webhshopp</p>
+         <p className="headLine">Webhshopp</p>
           <div id="headLinks">
             <Link to="/"><p>Produktlistan</p></Link>
-            {/* <Link to="/Add"><p>Lägga till</p></Link> */}
           </div>
          
           <Route exact path="/" component={ ProductList }/>
@@ -36,8 +35,7 @@ class MainApp extends Component {
 
 
         </div>
-{/*         if (this.state.redirectList === true) return <Redirect to="/"/>;
- */}      </Router>
+      </Router>
     );
   }
 }

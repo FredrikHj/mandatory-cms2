@@ -3,7 +3,7 @@ body{
   background-color: lightgrey;
 }
 .headLine{
-  border: 1px solid;
+  padding-left: 40px;
   position: relative;
   width: 257px;
   top: -31px;
@@ -23,7 +23,7 @@ body{
 /* ============== Main App ============== */
 #appBody{
   margin-left: calc(50% - 300px);
-  height: 425px;
+  height: 470px;
   margin-top: 10%;
   width: 600px;
   background-color: white;
@@ -61,10 +61,11 @@ body{
   font-size: 25px;
   text-align: center;
 }  
+
 #pageControlContainer{
-  position: relative;
+  position: absolute;
   width: 300px;
-  top: 20px;
+  top: 469px;
   left: calc(50% - 150px);
   display: flex;
   flex-direction: row;
@@ -117,7 +118,7 @@ body{
   top: 13px;
   left: 10px;
 }
-#addBasteBtn{
+#addBasketBtn{
   position: relative;
   width: 124px;
   height: 20px;
@@ -137,20 +138,91 @@ body{
 #descDistance{
   margin-top: 20px;
 }
+#setImgControlContainer{
+  position: relative;
+  padding-top: 47px;
+  width: 300px;
+  height: 100px;
+  top: 20px;
+  left: calc(50% - 155px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#imgContainer{
+  position: relative;
+  top: -80px;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  left: -18px;
+  border: 1px solid;
+}
+#productImgGallery{
+  position: absolute;
+  top: -50px;
+  width: 80px;
+  margin-left: calc(50% - 20px);
+  z-index: 1;
+}
+#productImgGallery:hover{
+  position: absolute;
+  top: -200px;
+  width: 400px;
+  margin-left: calc(50% - 200px);
+
+}
+#setImgContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100px;
+}
+#setImgContainer button{
+  width: 25px;
+  height: 30px;
+}
+#sideNr{
+  margin-top: 2px;
+  font-size: 20px;
+}
+#chooseBtn{
+  position: relative;
+  top: 15px;
+  left: -223px;
+  width: 300px;
+  display: none;
+  z-index: 1;
+}
+.chooseBtn {
+  display: inline-block;
+  padding: 5px 19px;
+  font-size: 17px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+}
+
+.chooseBtn:hover {background-color: #3e8e41}
+
+.chooseBtn:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
 /* ============== Authors ============== */
 .productHeadImg{
   width: 40px;
   margin-left: calc(50% - 20px);
-}
-/* .productHeadImgTd:hover{
-  transform: scale(10);
-  position: absolute;
-  top: 10px;
-  left: 170px;
-  z-index: 1;
-} */
-#authorsAll{
-  width: 100%;
 }
 
 /* ==============  Table style ============== */
