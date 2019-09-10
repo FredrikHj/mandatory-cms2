@@ -1,54 +1,84 @@
 import React, { useState, useEffect } from 'react';
 import {Helmet} from "react-helmet";
-import axios from 'axios';
+import {BehaviorSubject} from "rxjs";
+
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+//import { shoppingBasket$ } from './Store.js';
+import axios from 'axios';
+import { log } from 'util';
+const shoppingBasketArr = [];
 
 export let ShoppingBasket = (props) => {
-  let [author, setAuthor ] = useState(null);    
-  
+  let [ incommingProduct, updateIncommingProduct ] = useState([]);
+  let [ returnProductList, setReturnProductList ] = useState(false);
+  let [ productTotPrice, updateProductTotPrice ] = useState(0);
+
   useEffect(() => {
-    let authorId = props.match.params.id;
-    // Get Author
-    axios.get('https://cmslabb1.devspace.host/api/collections/get/Forfattare?filter[_id]=' + authorId, {
-      headers: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e}' }
-    })
-    .then(response => {
-      //console.log(response.data.entries[0]);
-      setAuthor(response.data.entries[0])
-    })
-    .catch((error) => {
-      //console.log(error);
-    });
+    let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
+    let incommingData = JSON.parse(shoppingBasket$.value);
+    console.log(incommingData);
+    updateIncommingProduct(incommingData);
+/* 
+    shoppingBasket$.subscribe((shoppingBasket) => { 
+    //}); */
   }, []);
-  if (!author) {
+ /*  if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
+  } */
+  let resetBasket = () => {
+    localStorage.removeItem('shoppingBasket');
+    updateIncommingProduct([]);
+    setReturnProductList(true);
   }
-  // Clean the data from comma
-  let cleanAuthor = author.name.split(',')[0];
+  function calcBasketTot(){
+    let calcBasketTot = 0;
+    for (let index = 0; index < incommingProduct.length; index++) {
+      const productPrice = incommingProduct[index].price;
+      const productQuantity = incommingProduct[index].quantity;
+      calcBasketTot+= productPrice*productQuantity;
+    }
+    console.log(calcBasketTot);
+    return calcBasketTot + ' Kr';
+  }  
+  console.log(incommingProduct);
+  if ( returnProductList === true) return <Redirect to="/"/>
   return(      
-    <> 
-      <p className="headLine">{ 'Författarblogg - ' + cleanAuthor}</p>
-      <div className="page">
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{ 'Författarblogg' + ' - ' + cleanAuthor }</title>
-        </Helmet>
-        <table id="articles">
+    <>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{'Webhshopp - Varukorg'}</title>
+      </Helmet>
+      <p className="headLineShoppingBasket">- Varukorg</p>
+      <section id="shoppingBasketContainer">
+        <table id="products">
           <thead>
-            <tr><th>Namn</th><th>Beskrivning</th><th>Porträtt</th></tr>
+            <tr><th>Nr</th><th>Produktnamn</th><th>Enhetspris</th><th>Antal</th><th>Totalt</th></tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{ cleanAuthor }</td>
-              <td>{ author.description }</td>
-              <td><img className="authorImg" src={'https://cmslabb1.devspace.host/' + author.avatar.path } alt="Ett porträtt"/></td>
-            </tr>
+            {(!incommingProduct)
+              ? <p id="listGetting">Inga produkter ...</p> 
+              : incommingProduct.map((obj, productCount) => {
+                productCount += 1;
+                let calcProductTo = obj.price*obj.quantity; 
+                return (
+                  <>
+                      <tr key={productCount}>
+                        <td>{ productCount }</td>
+                        <td>{ obj.productsNamn }</td>
+                        <td>{ obj.price }</td>
+                        <td>{ obj.quantity }</td>
+                        <td>{ calcProductTo }</td>
+                      </tr>
+                    </>
+                  );
+                })
+            }
           </tbody>
         </table>
-        <section id="authorsAll">
-          <Link to={"/AuthorsAll" }> Alla Författare!</Link>
-        </section>
-      </div>
+        <section id="proudctTotPrice">{ calcBasketTot() }</section>
+        <button id="resetBasketBtn" onClick={ resetBasket }>Rensa</button>
+      </section>
+
     </>
   );
 }

@@ -7,8 +7,10 @@ export let ProductList = (props) => {
   let [ productTotal, setProductTotal ] = useState(0);
   let [ pageNr, setPageNr ] = useState(1);
 
-  let [changeSkip, setChangeSkip ] = useState(0);
+  let [ changeSkip, setChangeSkip ] = useState(0);
   let [ productLimit ] = useState(5); // Article /Page
+  let [ goToBasket, setGoToBasket ] = useState(false);
+
   //let [ searchArticle, setSearchArticle ] = useState(' '); // Varför space. annars infogas inte data till tabellen?
   
   let pages = 1;
@@ -64,6 +66,10 @@ export let ProductList = (props) => {
 
     return totPages;
   } */
+  let runGoToBastet = () => {
+    setGoToBasket(true);
+  }
+  if ( goToBasket === true) return <Redirect to="/ShoppingBasket"/>
    return(
     <>
       <section id="inputSearchContainer">
@@ -99,9 +105,11 @@ export let ProductList = (props) => {
         }
       </div>
         <section id="pageControlContainer">
+          <section></section>
           <section id="setPageContainer">
             <button onClick={ setPageDecrease }>-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease }>+</button>            
           </section>
+          <button id="goToBasket" className="chooseBtn" onClick={ runGoToBastet }>Varukorgen</button>
         </section>
     </>
   );

@@ -16,12 +16,12 @@ class MainApp extends Component {
     }
   }
  // Add css roule for headline if PD, wither and text-align: center;
-  render() {
+  render() { 
     return (
       <Router>
         <Helmet>
         <meta charSet="utf-8" />
-        <title>{'Författarblogg'}</title>
+        <title>{'Webhshopp'}</title>
         </Helmet>
         <div id="appBody">
          <p className="headLine">Webhshopp</p>

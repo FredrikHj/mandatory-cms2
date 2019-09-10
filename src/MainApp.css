@@ -64,12 +64,12 @@ body{
 
 #pageControlContainer{
   position: absolute;
-  width: 300px;
-  top: 469px;
+  width: 463px;
+  top: 465px;
   left: calc(50% - 150px);
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   text-align: right;
 }
 #setPageContainer{
@@ -86,11 +86,20 @@ body{
   margin-top: 2px;
   font-size: 20px;
 }
+#goToBasket{
+  margin-top: -10px;
+  width: 161px;
+  height: 47px;
+}
 .inputSideNr{
   margin-top: 12px;
   margin-left: 10px;
   width: 40px;
   height: 20px;
+}
+.productHeadImg{
+  width: 40px;
+  margin-left: calc(50% - 20px);
 }
 
 /* ============== ProductDetails ============== */
@@ -116,14 +125,14 @@ body{
   width: 50px;
   height: 20px;
   top: 13px;
-  left: 10px;
+  left: 1px;
 }
 #addBasketBtn{
   position: relative;
-  width: 124px;
-  height: 20px;
-  top: 15px;
-  left: 30px;
+  width: 161px;
+  height: 47px;
+  top: 0px;
+  left: 17px;
 }
 #inStock{
   position: absolute;
@@ -132,7 +141,7 @@ body{
   justify-content: space-between;
   width: 168px;
   top: 79px;
-  left: 369px;
+  left: 364px;
   font-size: 12px;
 }
 #descDistance{
@@ -171,7 +180,6 @@ body{
   top: -200px;
   width: 400px;
   margin-left: calc(50% - 200px);
-
 }
 #setImgContainer{
   display: flex;
@@ -219,12 +227,27 @@ body{
 }
 
 
-/* ============== Authors ============== */
-.productHeadImg{
-  width: 40px;
-  margin-left: calc(50% - 20px);
+/* ============== ShppingBasket ============== */
+.headLineShoppingBasket{
+  padding-left: 40px;
+  position: relative;
+  width: 257px;
+  top: -164px;
+  left: 283px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 36px;
 }
-
+#shoppingBasketContainer{
+  margin-top: -170px;
+}
+#proudctTotPrice{
+  float: right;
+  margin-right: 10px;
+}
+#resetBasketBtn{
+  
+}
 /* ==============  Table style ============== */
 #products {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;

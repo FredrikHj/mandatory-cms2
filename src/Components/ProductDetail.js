@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import axios from 'axios';
+import { updateLocalStorage } from './Store.js';
+let shoppingBasketArr = [];
 
 export let ProductDetail = (props) => {
   let [ incommingProduct, setIncomminngProduct ] = useState(null);
@@ -9,29 +11,31 @@ export let ProductDetail = (props) => {
   let [ imgesTot, updateImgesTot ] = useState(0);
   let [ imgArrIndex, updateImgArrIndex ] = useState(0);
   let [ chooseBtn, setChooseBtn ] = useState(false);
+  let [ chooseBtnName, setChooseBtnName ] = useState('');
+  let [ productQuantity, updateProductQuantity ] = useState(0);
+
   let imgChangeArrIndex = 0;
   let imgChangeNr = 1;
   
-
   let productId = props.match.params.id;
   useEffect(() => {
-
+    
     // Get Articles
     axios.get('https://cmstenta.devspace.host/api/collections/get/products?filter[_id]=' + productId, {
-    headers: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e}' }
-  })
+      headers: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e}' }
+    })
     .then(response => {
       let incommingData = response.data.entries[0];
       console.log(incommingData);
-      setIncomminngProduct(incommingData);
-      updateImgSrc(incommingData.imgesGallery[imgArrIndex].path);
-      updateImgesTot(incommingData.imgesGallery.length);
+      setIncomminngProduct(incommingData);                          // 
+      updateImgSrc(incommingData.imgesGallery[imgArrIndex].path);   // 
+      updateImgesTot(incommingData.imgesGallery.length);            // 
     })
     .catch((error) => {
       //console.log(error);
     });
   }, [imgArrIndex]);  
- 
+  
   if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
   }
@@ -39,7 +43,7 @@ export let ProductDetail = (props) => {
     console.log('frs');
     imgChangeArrIndex = imgArrIndex - 1;
     imgChangeNr = imgCurrentNr - 1; 
-
+    
     if ( imgChangeNr < 1) return;
     else {
       updateImgArrIndex(imgChangeArrIndex);
@@ -50,7 +54,7 @@ export let ProductDetail = (props) => {
     console.log('frs');
     imgChangeArrIndex = imgArrIndex + 1;
     imgChangeNr = imgCurrentNr + 1;
-
+    
     if (imgChangeNr > incommingProduct.imgesGallery.length) return;
     else {
       updateImgArrIndex(imgChangeArrIndex);
@@ -59,16 +63,35 @@ export let ProductDetail = (props) => {
   }
   let addToBasket = () => {
     setChooseBtn(true);
+    // Add the product
+    let toBasket = {
+      productsNamn: incommingProduct.name,
+      quantity: productQuantity,
+      price: incommingProduct.price
+    }
+    shoppingBasketArr.push(toBasket);
+    console.log(shoppingBasketArr);
+
+    // Saving the shoppingBasketArr into localStorage
+    window.localStorage.setItem('shoppingBasket', JSON.stringify(shoppingBasketArr));
+  }
+  let addProductQuantity  = (e) => {
+    let tagetNr = e.target.value;
+    updateProductQuantity(tagetNr);
   }
   
   let shoppingMore = () => {
     setChooseBtn(false);
-    if ( chooseBtn === false) return <Redirect to="/"/>
+    setChooseBtnName('ProductList');
   }
   let toBasket = () => {
     setChooseBtn(false);
-
+    setChooseBtnName('ToBasket');
   }
+  console.log(shoppingBasketArr);
+  
+  if ( chooseBtnName === 'ProductList') return <Redirect to="/"/>
+  if ( chooseBtnName === 'ToBasket') return <Redirect to="/ShoppingBasket"/>
   return(       
     <>
     
@@ -86,14 +109,14 @@ export let ProductDetail = (props) => {
               <td>
                 <section id="buyProduktContainer">
                   <section id="buyProdukt">
-                    <p id="">Köp:</p><input id="buyProduktInput" type="number"/>
+                    <p id="">Köp:</p><input id="buyProduktInput" type="number" onChange={ addProductQuantity }/>
                     <button id="addBasketBtn" className="chooseBtn"onClick={ addToBasket }>Lägg i Varukorgen</button>
                     <ChooseBtn
                       show={ chooseBtn }
                       moreShopping={ shoppingMore }
                       toBasket={ toBasket }/>
                   </section>
-                  <p id="inStock">{ 'Antal i lager: ' + 'ewf ' }</p>               
+                  <p id="inStock">{ 'I lager: ' + 'ewf ' }</p>               
                 </section>
               </td> 
             </tr>
@@ -115,7 +138,6 @@ export let ProductDetail = (props) => {
             </tr>
           </tbody>
         </table>
-       
       </div>
     </>
   );
