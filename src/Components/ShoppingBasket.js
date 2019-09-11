@@ -43,6 +43,10 @@ export let ShoppingBasket = (props) => {
     console.log(calcBasketTot);
     return calcBasketTot + ' Kr';
   }  
+  let orderProducts = () => {
+    console.log('Börja här imorgon!!!');
+    
+  }
   console.log(incommingProduct);
   if ( returnProductList === true) return <Redirect to="/"/>
   return(      
@@ -53,7 +57,7 @@ export let ShoppingBasket = (props) => {
       </Helmet>
       <p className="headLineShoppingBasket">- Varukorg</p>
       <section id="shoppingBasketContainer">
-        <table id="products">
+        <table id="tableProducts">
           <thead>
             <tr><th>Nr</th><th>Produktnamn</th><th>Enhetspris</th><th>Antal</th><th>Totalt</th></tr>
           </thead>
@@ -79,7 +83,8 @@ export let ShoppingBasket = (props) => {
           </tbody>
         </table>
         <section id="proudctTotPrice">{ calcBasketTot() }</section>
-        <button id="resetBasketBtn" onClick={ resetBasket }>Rensa</button>
+        <button id="resetBasketBtn" onClick={ resetBasket } className="chooseBtn">Rensa</button>
+        <button id="resetBasketBtn" onClick={ orderProducts } className="chooseBtn">Beställ</button>
       </section>
 
     </>

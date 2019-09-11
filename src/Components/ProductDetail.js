@@ -4,6 +4,7 @@ import { objProductList } from './Repeaters.js';
 import { Reviews } from './Reviews.js';
 import axios from 'axios';
 import { updateLocalStorage } from './Store.js';
+
 let shoppingBasketArr = [];
 
 export let ProductDetail = (props) => {
@@ -15,6 +16,8 @@ export let ProductDetail = (props) => {
   let [ chooseBtn, setChooseBtn ] = useState(false);
   let [ chooseBtnName, setChooseBtnName ] = useState('');
   let [ productQuantity, updateProductQuantity ] = useState(0);
+  let [ showProductReview, setShowProductReview ] = useState(false);
+  let [ productReviewShow, setProductReviewShow ] = useState('');
 
   let imgChangeArrIndex = 0;
   let imgChangeNr = 1;
@@ -40,7 +43,7 @@ export let ProductDetail = (props) => {
   
   if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
-  }
+  };
   let imgDecrease = () => {
     console.log('frs');
     imgChangeArrIndex = imgArrIndex - 1;
@@ -51,9 +54,8 @@ export let ProductDetail = (props) => {
       updateImgArrIndex(imgChangeArrIndex);
       updateImgCurrentNr(imgChangeNr);
     }
-  }
+  };
   let imgIncrease = () => {
-    console.log('frs');
     imgChangeArrIndex = imgArrIndex + 1;
     imgChangeNr = imgCurrentNr + 1;
     
@@ -62,7 +64,7 @@ export let ProductDetail = (props) => {
       updateImgArrIndex(imgChangeArrIndex);
       updateImgCurrentNr(imgChangeNr);
     }
-  }
+  };
   let addToBasket = () => {
     setChooseBtn(true);
     // Add the product
@@ -76,29 +78,37 @@ export let ProductDetail = (props) => {
 
     // Saving the shoppingBasketArr into localStorage
     window.localStorage.setItem('shoppingBasket', JSON.stringify(shoppingBasketArr));
-  }
+  };
   let addProductQuantity  = (e) => {
     let tagetNr = e.target.value;
     updateProductQuantity(tagetNr);
-  }
+  };
   
   let shoppingMore = () => {
     setChooseBtn(false);
     setChooseBtnName('ProductList');
-  }
+  };
   let toBasket = () => {
     setChooseBtn(false);
     setChooseBtnName('ToBasket');
-  }
-  console.log(shoppingBasketArr);
+  };
+  let handleReview = (e) => {
+    let targetBtn = e.target.textContent;
+    if (targetBtn === 'Antal recensioner') setProductReviewShow('Antal recensioner');
+    if (targetBtn === 'Lägg till') setProductReviewShow('Lägg till');
+
+    console.log(targetBtn);
+
+    setShowProductReview(true)
+  } 
   
-  if ( chooseBtnName === 'ProductList') return <Redirect to="/"/>
-  if ( chooseBtnName === 'ToBasket') return <Redirect to="/ShoppingBasket"/>
+  if ( chooseBtnName === 'ProductList') return <Redirect to="/"/>;
+  if ( chooseBtnName === 'ToBasket') return <Redirect to="/ShoppingBasket"/>;
   return(       
     <>
     
       <div className="page">
-        <table id="products">
+        <table id="tableProducts">
           <thead>
             <tr>
               <th>Produktnamn</th><th>Pris</th><th>Köpeinformation</th>
@@ -131,24 +141,28 @@ export let ProductDetail = (props) => {
                 </section>  
               </td>
             </tr>
-            <br></br><br></br>
-            <tr>
-              <td colSpan="10">
-                <section id="setImgControlContainer">
-                  <section id="imgContainer">
-                    { <img id="productImgGallery" src={'https://cmstenta.devspace.host/' + imgSrc } alt="produkt bild"/> }
-                  </section>
-                  <section id="setImgContainer">
-                    <button onClick={ imgDecrease } className="chooseBtn">-</button> <p id="sideNr">{ imgCurrentNr + ' / ' +  imgesTot }</p> <button onClick={ imgIncrease } className="chooseBtn">+</button>            
-                  </section>
-                </section>
-              </td>
-            </tr>
           </tbody>
-        </table>'
-        <section id="">
-          <a>Recensioner</a><p>{'Antal' + '1'}</p>
+        </table>
+        <section id="reviewLinkContainer">
+          <button onClick={ handleReview } className="chooseBtn" id="addReview">Antal recensioner</button> <p>{'1'}</p>
+          <button onClick={ handleReview } className="chooseBtn" id="addReview">Lägg till</button>
         </section>
+          <Reviews
+            productID={ productId }
+            productName={ incommingProduct.name }
+            showProductReview={ showProductReview }
+            productReviewShow={ productReviewShow }
+          />
+        <section id="setImgControlContainer">
+          <section id="imgContainer">
+            { <img id="productImgGallery" src={'https://cmstenta.devspace.host/' + imgSrc } alt="produkt bild"/> }
+          </section>
+          <section id="setImgContainer">
+            <button onClick={ imgDecrease } className="chooseBtn">-</button> <p id="sideNr">{ imgCurrentNr + ' / ' +  imgesTot }</p> <button onClick={ imgIncrease } className="chooseBtn">+</button>            
+          </section>
+        </section>
+
+
       </div>
     </>
   );
@@ -163,5 +177,4 @@ let ChooseBtn = (props) => {
       <button className="chooseBtn" onClick={ props.toBasket }>Till varukorg</button>   
     </section>
   );
-  
 }

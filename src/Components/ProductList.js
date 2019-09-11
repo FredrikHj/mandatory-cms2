@@ -81,31 +81,30 @@ export let ProductList = (props) => {
       </section>
       
       <div className="pageProductsList">
-        {(incommingProduct.length === 0)
-          ? <p id="listGetting">Listan hämtas ...</p>
-          : <table id="products">
-            <thead>
-            <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>På lager</th><th>Bild</th></tr>
-            </thead>
-            <tbody>
-              {
-                incommingProduct.map((obj, productCount) => {
-                  productCount += 1;
-                                 
-                return (
-                  <tr key={productCount}>
-                    <td>{ productCount }</td>
-                    <td><Link to={"/ProductDetail/" + obj._id }>{ obj.name }</Link></td>
-                    <td>{ obj.price +' kr' }</td>
-                    <td>{ obj.stock + ' st' }</td>
-                    <td className="productHeadImgTd">{ <img className="productHeadImg" src={'https://cmstenta.devspace.host/' + obj.imgesGallery[0].path } alt="produkt bild"/>}</td>
-                  </tr>
-                  );
-                })
+      <table id="tableProducts">
+        <thead>
+         <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>På lager</th><th>Bild</th></tr>
+        </thead>
+        <tbody>
+          {(incommingProduct.length === 0)
+            ? <p id="listGetting">Listan hämtas ...</p>
+            : 
+              incommingProduct.map((obj, productCount) => {
+                productCount += 1;
+                              
+              return (
+                <tr key={productCount}>
+                  <td>{ productCount }</td>
+                  <td><Link to={"/ProductDetail/" + obj._id }>{ obj.name }</Link></td>
+                  <td>{ obj.price +' kr' }</td>
+                  <td>{ obj.stock + ' st' }</td>
+                  <td className="productHeadImgTd">{ <img className="productHeadImg" src={'https://cmstenta.devspace.host/' + obj.imgesGallery[0].path } alt="produkt bild"/>}</td>
+                </tr>
+                );
+              })
               }
-            </tbody>
-          </table >
-        }
+        </tbody>
+      </table >
       </div>
         <section id="pageControlContainer">
           <section></section>
