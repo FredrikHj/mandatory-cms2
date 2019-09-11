@@ -23,10 +23,9 @@ body{
 /* ============== Main App ============== */
 #appBody{
   margin-left: calc(50% - 300px);
-  height: 470px;
-  margin-top: 10%;
+/*   height: 470px; */
   width: 600px;
-  background-color: white;
+/*   background-color: white; */
   border-radius: 30px;
   padding-right: 10px;
   padding-left: 10px;
@@ -76,14 +75,14 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 90px;
+  width: 110px;
 }
 #setPageContainer button{
   width: 25px;
   height: 30px;
 }
 #sideNr{
-  margin-top: 2px;
+  margin-top: 4px;
   font-size: 20px;
 }
 #goToBasket{
@@ -177,7 +176,7 @@ body{
 }
 #productImgGallery:hover{
   position: absolute;
-  top: -200px;
+  top: -400px;
   width: 400px;
   margin-left: calc(50% - 200px);
 }
@@ -185,7 +184,7 @@ body{
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  width: 100px;
+  width: 130px;
 }
 #setImgContainer button{
   width: 25px;

@@ -28,7 +28,7 @@ class MainApp extends Component {
           <div id="headLinks">
             <Link to="/"><p>Produktlistan</p></Link>
           </div>
-         
+
           <Route exact path="/" component={ ProductList }/>
           <Route exact path="/ProductDetail/:id" component={ ProductDetail }/>
           <Route exact path="/ShoppingBasket" component={ ShoppingBasket }/>

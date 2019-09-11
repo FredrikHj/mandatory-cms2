@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { objProductList } from './Repeaters.js';
 import axios from 'axios';
 
 export let ProductList = (props) => {
@@ -18,8 +19,8 @@ export let ProductList = (props) => {
 
   useEffect(() =>{
     // Get products
-    axios.get(`https://cmstenta.devspace.host/api/collections/get/products?skip=${changeSkip}&limit=${productLimit}` , {
-      headers: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e' }
+    axios.get(`${objProductList.urlProductList}?skip=${changeSkip}&limit=${productLimit}`, {
+      headers: objProductList.cockpitToken
     })
     .then(response => {
       console.log(response);
@@ -30,7 +31,8 @@ export let ProductList = (props) => {
       //console.log(error);
     });
   }, [changeSkip]);
-  
+  console.log(objProductList.cockpitToken);
+  console.log(incommingProduct);
 
  /*  function inputSearchArticle(e) {
     let targetArticle = e.target.value;
@@ -83,7 +85,7 @@ export let ProductList = (props) => {
           ? <p id="listGetting">Listan hämtas ...</p>
           : <table id="products">
             <thead>
-            <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>Bild</th></tr>
+            <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>På lager</th><th>Bild</th></tr>
             </thead>
             <tbody>
               {
@@ -95,6 +97,7 @@ export let ProductList = (props) => {
                     <td>{ productCount }</td>
                     <td><Link to={"/ProductDetail/" + obj._id }>{ obj.name }</Link></td>
                     <td>{ obj.price +' kr' }</td>
+                    <td>{ obj.stock + ' st' }</td>
                     <td className="productHeadImgTd">{ <img className="productHeadImg" src={'https://cmstenta.devspace.host/' + obj.imgesGallery[0].path } alt="produkt bild"/>}</td>
                   </tr>
                   );
@@ -107,7 +110,7 @@ export let ProductList = (props) => {
         <section id="pageControlContainer">
           <section></section>
           <section id="setPageContainer">
-            <button onClick={ setPageDecrease }>-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease }>+</button>            
+            <button onClick={ setPageDecrease } className="chooseBtn">-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease } className="chooseBtn">+</button>            
           </section>
           <button id="goToBasket" className="chooseBtn" onClick={ runGoToBastet }>Varukorgen</button>
         </section>

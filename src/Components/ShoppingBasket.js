@@ -5,7 +5,7 @@ import {BehaviorSubject} from "rxjs";
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 //import { shoppingBasket$ } from './Store.js';
 import axios from 'axios';
-import { log } from 'util';
+
 const shoppingBasketArr = [];
 
 export let ShoppingBasket = (props) => {
@@ -22,7 +22,7 @@ export let ShoppingBasket = (props) => {
     shoppingBasket$.subscribe((shoppingBasket) => { 
     //}); */
   }, []);
- /*  if (!incommingProduct) {
+/*   if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
   } */
   let resetBasket = () => {
@@ -32,11 +32,14 @@ export let ShoppingBasket = (props) => {
   }
   function calcBasketTot(){
     let calcBasketTot = 0;
-    for (let index = 0; index < incommingProduct.length; index++) {
-      const productPrice = incommingProduct[index].price;
-      const productQuantity = incommingProduct[index].quantity;
-      calcBasketTot+= productPrice*productQuantity;
+    if (incommingProduct) {
+      for (let index = 0; index < incommingProduct.length; index++) {
+        const productPrice = incommingProduct[index].price;
+        const productQuantity = incommingProduct[index].quantity;
+        calcBasketTot+= productPrice*productQuantity;
+      }
     }
+    else calcBasketTot = 0;
     console.log(calcBasketTot);
     return calcBasketTot + ' Kr';
   }  
