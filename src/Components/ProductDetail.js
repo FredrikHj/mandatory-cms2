@@ -4,6 +4,7 @@ import { objProductList } from './Repeaters.js';
 import { Reviews } from './Reviews.js';
 import axios from 'axios';
 import { updateLocalStorage } from './Store.js';
+import { log } from 'util';
 
 let shoppingBasketArr = [];
 
@@ -18,6 +19,7 @@ export let ProductDetail = (props) => {
   let [ productQuantity, updateProductQuantity ] = useState(0);
   let [ showProductReview, setShowProductReview ] = useState(false);
   let [ productReviewShow, setProductReviewShow ] = useState('');
+  let [ reviewQuantity, updateReviewQuantity ] = useState(0);
 
   let imgChangeArrIndex = 0;
   let imgChangeNr = 1;
@@ -26,7 +28,7 @@ export let ProductDetail = (props) => {
   useEffect(() => {
     
     // Get Articles
-    axios.get(`${objProductList.urlProductList}?filter[_id]=${productId}`, {
+    axios.get(`${objProductList.urlGetProductList}?filter[_id]=${productId}`, {
       headers: objProductList.cockpitToken
     })
     .then(response => {
@@ -93,17 +95,24 @@ export let ProductDetail = (props) => {
     setChooseBtnName('ToBasket');
   };
   let handleReview = (e) => {
-    let targetBtn = e.target.textContent;
-    if (targetBtn === 'Antal recensioner') setProductReviewShow('Antal recensioner');
-    if (targetBtn === 'Lägg till') setProductReviewShow('Lägg till');
+    let targetBtn = e.target.value;
+    console.log(targetBtn);
+    
+    if (targetBtn === '1') setProductReviewShow(targetBtn);
+    if (targetBtn === '2') setProductReviewShow(targetBtn);
 
     console.log(targetBtn);
 
     setShowProductReview(true)
-  } 
+  }
+  let setReviewQuantity = (quantity) => {
+    updateReviewQuantity(quantity);
+  }
   
   if ( chooseBtnName === 'ProductList') return <Redirect to="/"/>;
   if ( chooseBtnName === 'ToBasket') return <Redirect to="/ShoppingBasket"/>;
+console.log(reviewQuantity);
+
   return(       
     <>
     
@@ -133,7 +142,7 @@ export let ProductDetail = (props) => {
               </td> 
             </tr>
             <br></br>
-            <tr><td colSpan="10">Beskrivnning</td></tr>
+            <tr><th colSpan="2">Beskrivnning</th></tr>
             <tr>
               <td colSpan="10">
                 <section id="productDes">  
@@ -144,14 +153,15 @@ export let ProductDetail = (props) => {
           </tbody>
         </table>
         <section id="reviewLinkContainer">
-          <button onClick={ handleReview } className="chooseBtn" id="addReview">Antal recensioner</button> <p>{'1'}</p>
-          <button onClick={ handleReview } className="chooseBtn" id="addReview">Lägg till</button>
+          <button onClick={ handleReview } id="reviewList" value="1">{'Antal recensioner: ' + reviewQuantity }</button>
+          <button onClick={ handleReview } className="chooseBtn" id="addReview" value="2">Lägg till</button>
         </section>
           <Reviews
             productID={ productId }
             productName={ incommingProduct.name }
             showProductReview={ showProductReview }
             productReviewShow={ productReviewShow }
+            setReviewQuantity={ setReviewQuantity }
           />
         <section id="setImgControlContainer">
           <section id="imgContainer">

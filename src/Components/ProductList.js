@@ -19,7 +19,7 @@ export let ProductList = (props) => {
 
   useEffect(() =>{
     // Get products
-    axios.get(`${objProductList.urlProductList}?skip=${changeSkip}&limit=${productLimit}`, {
+    axios.get(`${objProductList.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}`, {
       headers: objProductList.cockpitToken
     })
     .then(response => {
