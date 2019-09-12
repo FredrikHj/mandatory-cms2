@@ -52,7 +52,7 @@ export let ProductList = (props) => {
       setChangeSkip(getIntoPage);
     } 
   }
-  function setPageIncrease() {
+  function setPageIncrease() {  // Fel = Sidor överskrider vad som kommer in
     console.log('frs');
     
     pages = pageNr + 1;
@@ -83,7 +83,7 @@ export let ProductList = (props) => {
       <div className="pageProductsList">
       <table id="tableProducts">
         <thead>
-         <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>På lager</th><th>Bild</th></tr>
+         <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>Alla på lager </th><th>Bild</th></tr>
         </thead>
         <tbody>
           {(incommingProduct.length === 0)

@@ -17,7 +17,7 @@ export let ProductDetail = (props) => {
   let [ chooseBtn, setChooseBtn ] = useState(false);
   let [ chooseBtnName, setChooseBtnName ] = useState('');
   let [ productQuantity, updateProductQuantity ] = useState(0);
-  let [ showProductReview, setShowProductReview ] = useState(false);
+  let [ getProductReview, setGetProductReview ] = useState(false);
   let [ productReviewShow, setProductReviewShow ] = useState('');
   let [ reviewQuantity, updateReviewQuantity ] = useState(0);
 
@@ -41,7 +41,8 @@ export let ProductDetail = (props) => {
     .catch((error) => {
       //console.log(error);
     });
-  }, [imgArrIndex]);  
+  }, [imgArrIndex //setGetProductReview
+  ]);  
   
   if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
@@ -71,7 +72,7 @@ export let ProductDetail = (props) => {
     setChooseBtn(true);
     // Add the product
     let toBasket = {
-      productsNamn: incommingProduct.name,
+      productsName: incommingProduct.name,
       quantity: productQuantity,
       price: incommingProduct.price
     }
@@ -103,7 +104,7 @@ export let ProductDetail = (props) => {
 
     console.log(targetBtn);
 
-    setShowProductReview(true)
+    setGetProductReview(true)
   }
   let setReviewQuantity = (quantity) => {
     updateReviewQuantity(quantity);
@@ -159,7 +160,8 @@ console.log(reviewQuantity);
           <Reviews
             productID={ productId }
             productName={ incommingProduct.name }
-            showProductReview={ showProductReview }
+            setGetProductReview={ setGetProductReview }
+            getProductReview={ getProductReview }
             productReviewShow={ productReviewShow }
             setReviewQuantity={ setReviewQuantity }
           />
