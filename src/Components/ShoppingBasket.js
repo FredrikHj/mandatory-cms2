@@ -73,7 +73,8 @@ let handleOrderAddress = (e) => {
   }
   let checkoutOrderBtn = () => {
     console.log('gre');
-    //props.setGetProductReview(false);
+    setReturnProductList(true);
+    alert('Tack för din beställning!');
 }
   console.log(incommingProduct);
   if ( returnProductList === true) return <Redirect to="/"/>

@@ -76,7 +76,7 @@ body{
 #pageControlContainer{
   position: absolute;
   width: 463px;
-  top: 465px;
+  top: 553px;
   left: calc(50% - 150px);
   display: flex;
   flex-direction: row;
@@ -93,10 +93,9 @@ body{
   width: 45px;
   height: 30px;
 }
-#goToBasket{
-  margin-top: -10px;
-  width: 161px;
-  height: 47px;
+.productHeadImg{
+  width: 40px;
+  margin-left: calc(50% - 20px);
 }
 .inputSideNr{
   margin-top: 12px;
@@ -104,9 +103,40 @@ body{
   width: 40px;
   height: 20px;
 }
-.productHeadImg{
-  width: 40px;
-  margin-left: calc(50% - 20px);
+#goToBasket{
+  margin-top: -10px;
+  width: 161px;
+  height: 47px;
+}
+#showInStockContainer{
+  position: relative;
+  top: -3px;
+  left: 250px;
+  width: 325px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+#showInStockContainer button{
+  background-color: darkgrey;
+  border: none;
+  border-radius: 30px;
+  margin-left: 20px;
+  height: 22px;
+  z-index: 1;
+}
+.showInStockAllProduct{
+  width: 324px;
+}
+#showInStock1Letter{
+  width: 50px;
+  margin-left: 30px;
+}
+.showInStockRestetProduct{
+  width: 75px;
+}
+#pageProductsListFooter{
+  margin-top: 1px
 }
 
 /* ============== ProductDetails ============== */
@@ -158,13 +188,12 @@ body{
   padding-top: 47px;
   width: 300px;
   height: 100px;
-  top: 326px;
+  top: 284px;
   left: calc(50% - 155px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  z-index: -1;
 }
 #imgContainer{
   position: relative;
@@ -194,7 +223,7 @@ body{
   flex-direction: row;
   justify-content: space-between;
   width: 130px;
-  margin-top: 10px;
+  margin-top: -40px;
 }
 #setImgContainer button{
   width: 25px;
