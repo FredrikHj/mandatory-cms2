@@ -13,11 +13,7 @@ export let ShoppingBasket = (props) => {
   let [ incommingProduct, updateIncommingProduct ] = useState([]);
   let [ returnProductList, setReturnProductList ] = useState(false);
   let [ productTotPrice, updateProductTotPrice ] = useState(0);
-  let [ checkoutOrderEmtyMess, setCheckoutOrderEmtyMess ] = useState('');    // If no field is filled the text is saved here
   let [ checkoutOrder, setCheckoutOrder ] = useState(false);  
-  let [ checkoutOrderName, setCheckoutOrderName ] = useState('');
-  let [ checkoutOrderAddress, setCheckoutOrderAddresss ] = useState('');
-
 
   useEffect(() => {
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
@@ -49,34 +45,23 @@ export let ShoppingBasket = (props) => {
     console.log(calcBasketTot);
     return calcBasketTot + ' Kr';
   }
-
-let handleOrderName = (e) => {
-    let targetStr = e.target.value;
-    setCheckoutOrderName(targetStr);
-    setCheckoutOrderEmtyMess('');
-}
-let handleOrderAddress = (e) => {
-    let targetStr = e.target.value;
-    setCheckoutOrderAddresss(targetStr);
-    setCheckoutOrderEmtyMess('');
-}
+  let checkoutOrderCancelBtn = () => {
+    setReturnProductList(true);
+    console.log('gre');
+    
+    //setGetProductReview(false);
+  }
+  let checkoutOrderBtn = () => {
+    console.log('gre');
+    setReturnProductList(true);
+    alert('Tack för din beställning!');
+  }
   let orderProducts = () => {
     setCheckoutOrder(true);
 
     console.log('Börja här imorgon!!!');
     
   }
-  let checkoutOrderCancelBtn = () => {
-    setReturnProductList(true);
-    console.log('gre');
-    
-    //props.setGetProductReview(false);
-  }
-  let checkoutOrderBtn = () => {
-    console.log('gre');
-    setReturnProductList(true);
-    alert('Tack för din beställning!');
-}
   console.log(incommingProduct);
   if ( returnProductList === true) return <Redirect to="/"/>
   return(      
@@ -120,14 +105,14 @@ let handleOrderAddress = (e) => {
           <section id="proudctTotPrice">{ calcBasketTot() }</section>
         </section>
         <CheckoutOrder
-          checkoutOrderEmtyMess={ checkoutOrderEmtyMess }
           checkoutOrderBtn={ checkoutOrderBtn }
           checkoutOrderCancelBtn={ checkoutOrderCancelBtn }
+          /* checkoutOrderEmtyMess={ checkoutOrderEmtyMess }
           handleOrderName={ handleOrderName }
           handleOrderAddress={ handleOrderAddress }
           checkoutOrderName={ checkoutOrderName }
           checkoutOrderAddress={ checkoutOrderAddress }
-          checkoutOrder={ checkoutOrder }
+          checkoutOrder={ checkoutOrder } */
           incommingProductArr={ incommingProduct }
 
         />

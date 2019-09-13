@@ -1,16 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import {Helmet} from "react-helmet";
+import { objProductList } from './Repeaters.js';
+import axios from 'axios';
 
 export let CheckoutOrder = (props) => {
-    return(   
+  //let [ incommingReviews, setIncommingReviews ] = useState([]);
+  let [ checkoutOrderEmtyMess, setCheckoutOrderEmtyMess ] = useState('');    // If no field is filled the text is saved here
+  let [ checkoutOrderName, setCheckoutOrderName ] = useState('');
+  let [ checkoutOrderAddress, setCheckoutOrderAddress ] = useState('');
+
+  useEffect(() => {
+    // Get Review
+     axios.get(`${objProductList.urlPostCheckoutOrder}`//?=${productId}`
+     , {
+      headers: objProductList.cockpitToken
+    })
+    .then(response => {
+        let incommingData = response.data.entries;
+        console.log(incommingData);
+        //setIncommingReviews(incommingData);                          
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+  let handleOrderName = (e) => {
+    let targetStr = e.target.value;
+    setCheckoutOrderName(targetStr);
+    setCheckoutOrderEmtyMess('');
+}
+let handleOrderAddress = (e) => {
+    let targetStr = e.target.value;
+    setCheckoutOrderAddress(targetStr);
+    setCheckoutOrderEmtyMess('');
+}
+
+    return(
       <section id="checkoutOrderedContainer" style={(props.checkoutOrder !== true) ? {display: 'block'} : {display: 'none'}}>
-        <p className="headLineRewview">{'Beställning - ' + ''}  </p>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>{'Webhshopp - Varukorg'}</title>
+        </Helmet>
+        <p className="headLineRewview">Beställning</p>
           <table id="tableReview">
             <thead>
               <tr><th>Namn</th><th>Adress</th><th colSpan="2">Totalt pris</th></tr>
               <tr>
-                <td><input id="inputCheckoutOrder" type="text" onChange={ props.handleOrderName } value={ props.checkoutOrderName } required/></td>   
-                <td><input id="inputCheckoutOrder" type="text" onChange={ props.handleOrderAddress } value={ props.checkoutOrderAddress } required/></td>
+                <td><input id="inputCheckoutOrder" type="text" onChange={ handleOrderName } value={ checkoutOrderName } required/></td>   
+                <td><input id="inputCheckoutOrder" type="text" onChange={ handleOrderAddress } value={ checkoutOrderAddress } required/></td>
                 <td colSpan="2">{ '' }</td>   
               </tr>
               <br></br>
@@ -42,7 +79,7 @@ export let CheckoutOrder = (props) => {
               }
             </tbody>
         </table>
-        <p id="checkoutOrderFieldEmtyMess">{ props.checkoutOrderEmtyMess }</p>
+        <p id="checkoutOrderFieldEmtyMess">{ checkoutOrderEmtyMess }</p>
         <section id="checkoutOrderBtn">
           <button onClick={ props.checkoutOrderCancelBtn  } className="chooseBtn" id="addReview">Avbryt</button>
           <button onClick={ props.checkoutOrderBtn } className="chooseBtn" id="addReview">Lägg beställning</button>
