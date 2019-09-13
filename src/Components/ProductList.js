@@ -13,13 +13,13 @@ export let ProductList = (props) => {
   let [ goToBasket, setGoToBasket ] = useState(false);
 
   let [ searchProducts, setSearchProducts ] = useState(' '); // Varför space. annars infogas inte data till tabellen?
-  let [ inStock, setInstock ] = useState(null);
+  let [ inStock, setInstock ] = useState('');
   let pages = 1;
   let getIntoPage = 0;
 
   useEffect(() =>{
     // Get products
-    axios.get(`${objProductList.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?filter[name]=${searchProducts}?filter[inStock]=${inStock}`, {
+    axios.get(`${objProductList.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?1filter[name]=${searchProducts}${inStock}`, {
       headers: objProductList.cockpitToken
     })
     .then(response => {
@@ -30,7 +30,7 @@ export let ProductList = (props) => {
     .catch((error) => {
       //console.log(error);
     });
-  }, [changeSkip]);
+  }, [changeSkip, searchProducts, inStock]);
   console.log(objProductList.cockpitToken);
   console.log(incommingProduct);
 
@@ -46,11 +46,11 @@ export let ProductList = (props) => {
     let targetStr = e.target.value;
 
     if (targetStr === 'showProductsInStock') {
-      setInstock(true);
+      setInstock('&filter[inStock]=${inStock}');
     }
     
     if (targetStr === 'showAllProductsInStock') {
-      setInstock(null);
+      setInstock('');
     }
     console.log(targetStr);
     
@@ -77,6 +77,8 @@ export let ProductList = (props) => {
       setChangeSkip(getIntoPage);
     }
   }
+  console.log(incommingProduct.length);
+  console.log(productLimit);
 /*   let calcTotPages = () => {
     let totPages = parseInt(productTotal / productLimit);
 
@@ -86,10 +88,6 @@ export let ProductList = (props) => {
     setGoToBasket(true);
   }
   if ( goToBasket === true) return <Redirect to="/ShoppingBasket"/>
-  console.log('pages: ' + pages);
-  console.log('antalet produkter: ' + incommingProduct.length);
-  console.log(incommingProduct);
-  console.log(searchProducts);
   
    return(
     <>
@@ -108,15 +106,14 @@ export let ProductList = (props) => {
               : 
                 filterProducts.map((obj, productCount) => {
                   productCount += 1;
-                  console.log(typeof parseInt(obj.stock));
-                  
+                             
                   return (
                   <tr key={productCount}>
                     <td>{ productCount }</td>
                     <td><Link to={"/ProductDetail/" + obj._id }>{ obj.name }</Link></td>
                     <td>{ obj.price +' kr' }</td>
                     <td>{ obj.inStockQuantity + ' st' }</td>
-                    <td className="productHeadImgTd">{ <img className="productHeadImg" src={'https://cmstenta.devspace.host/' + obj.imgesGallery[0].path } alt="produkt bild"/>}</td>
+                  <td className="productHeadImgTd">{ <img className="productHeadImg" src={'https://cmstenta.devspace.host/' + obj.imgesGallery[0].path } alt="produkt bild"/> }</td>
                   </tr>
                   );
                 })

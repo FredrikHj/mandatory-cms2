@@ -3,4 +3,5 @@ export let objProductList = {
     urlGetReviews: 'https://cmstenta.devspace.host/api/collections/get/reviews',
     urlPostReview: 'https://cmstenta.devspace.host/api/collections/save/reviews',
     cockpitToken: { 'Cockpit-Token': '6f17f3f1b843b47ae5c16a52c8c83e'},
+    urlPostCheckoutOrder: 'https://cmstenta.devspace.host/api/collections/save/reviews',
 };
