@@ -24,7 +24,7 @@ class MainApp extends Component {
         <title>{'Webhshopp'}</title>
         </Helmet>
         <div id="appBody">
-         <p className="headLine">Webhshopp</p>
+         <p className="headLine">Webbshopp</p>
           <div id="headLinks">
             <Link to="/"><p>Produktlistan</p></Link>
           </div>

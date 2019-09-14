@@ -43,13 +43,13 @@ export let CheckoutOrder = (props) => {
       let orderProductsDataObj = {};
       for (let index = 0; index < props.incommingProductArr.length; index++) {
         let orderName = props.incommingProductArr[index].productsName;
-        orderProductsDataObj.orderName = orderName;
+        orderProductsDataObj.productName = orderName;
         let orderQuantity = props.incommingProductArr[index].quantity;
-        orderProductsDataObj.orderQuantity = orderQuantity;
+        orderProductsDataObj.productQuantity = orderQuantity;
         let orderPrice = props.incommingProductArr[index].price;
-        orderProductsDataObj.orderPrice = orderPrice;
+        orderProductsDataObj.price = orderPrice;
 
-        orderProductsDataArr.push({ value: orderProductsDataObj });
+        orderProductsDataArr.push({ value: orderProductsDataObj});
       }
 
 
@@ -76,14 +76,13 @@ export let CheckoutOrder = (props) => {
         console.log(incommingData);
         if (incommingData) {
           console.log(orderProductsDataArr);
-          
           // Emtying all field, data and stuff corresponding to the order
-          /*           setCheckoutOrderName('');
+          setCheckoutOrderName('');
           setCheckoutOrderAddress('');
           ordersDataProducts = [];
           props.setReturnProductList(true);
           localStorage.removeItem('shoppingBasket');
-          alert('Tack för din beställning - Order Nr: ' + orderNr); */
+          alert('Tack för din beställning - Order Nr: ' + orderNr);
         } else return;
       })
       .catch((error) => {
