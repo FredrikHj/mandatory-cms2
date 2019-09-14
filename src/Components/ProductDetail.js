@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { objProductList } from './Repeaters.js';
+import { objAxiosUrls } from './Repeaters.js';
 import { Reviews } from './Reviews.js';
 import axios from 'axios';
 import { updateLocalStorage } from './Store.js';
@@ -28,8 +28,8 @@ export let ProductDetail = (props) => {
   useEffect(() => {
     
     // Get Articles
-    axios.get(`${objProductList.urlGetProductList}?filter[_id]=${productId}`, {
-      headers: objProductList.cockpitToken
+    axios.get(`${objAxiosUrls.urlGetProductList}?filter[_id]=${productId}`, {
+      headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
       let incommingData = response.data.entries[0];
@@ -129,16 +129,16 @@ console.log(reviewQuantity);
               <td>{ incommingProduct.name }></td>
               <td>{ incommingProduct.price + ' kr' }</td>
               <td>
-                <section id="buyProduktContainer">
-                  <section id="buyProdukt">
-                    <p id="">Köp:</p><input id="buyProduktInput" type="number" onChange={ addProductQuantity } min="1"/>
+                <section id="buyProductContainer">
+                  <section id="buyProduct">
+                    <p id="">Köp:</p><input id="buyProductInput" type="number" onChange={ addProductQuantity } min="1"/>
                     <button id="addBasketBtn" className="chooseBtn"onClick={ addToBasket }>Lägg i Varukorgen</button>
                     <ChooseBtn
                       show={ chooseBtn }
                       moreShopping={ shoppingMore }
                       toBasket={ toBasket }/>
                   </section>
-                  <p id="inStock">{ 'I lager: ' + incommingProduct.stock }</p>               
+                  <p id="inStock">{ 'I lager: ' + incommingProduct.inStockQuantity }</p>               
                 </section>
               </td> 
             </tr>

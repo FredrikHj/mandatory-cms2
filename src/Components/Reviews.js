@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { objProductList } from './Repeaters.js';
+import { objAxiosUrls } from './Repeaters.js';
 import axios from 'axios';
 
 export let Reviews = (props) => {
@@ -12,9 +12,9 @@ export let Reviews = (props) => {
 
     useEffect(() => {
         // Get Review
-         axios.get(`${objProductList.urlGetReviews}`//?=${props.productId}`
+         axios.get(`${objAxiosUrls.urlGetReviews}`//?=${props.productId}`
          , {
-          headers: objProductList.cockpitToken
+          headers: objAxiosUrls.cockpitToken
         })
         .then(response => {
             let incommingData = response.data.entries;
@@ -59,9 +59,9 @@ export let Reviews = (props) => {
 
         } else {
             // Post a new review
-            axios.post(`${objProductList.urlPostReview}` //?=${props.productId}`
+            axios.post(`${objAxiosUrls.urlPostReview}` //?=${props.productId}`
             ,{
-                headers: [ objProductList.cockpitToken, {"Content-Type": "application/json"} ],
+                headers: [ objAxiosUrls.cockpitToken, {"Content-Type": "application/json"} ],
                 data: {
                     title: reviewName,
                     body: reviewMess,

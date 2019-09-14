@@ -4,12 +4,15 @@ import {BehaviorSubject} from "rxjs";
 
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { CheckoutOrder } from './CheckoutOrder.js'; 
+import { objAxiosUrls } from './Repeaters.js';
+
 //import { shoppingBasket$ } from './Store.js';
-import axios from 'axios';
+
 
 const shoppingBasketArr = [];
 
 export let ShoppingBasket = (props) => {
+  let [ reRender, runReRender ] = useState(true);
   let [ incommingProduct, updateIncommingProduct ] = useState([]);
   let [ returnProductList, setReturnProductList ] = useState(false);
   let [ productTotPrice, updateProductTotPrice ] = useState(0);
@@ -19,19 +22,22 @@ export let ShoppingBasket = (props) => {
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
     console.log(incommingData);
-    updateIncommingProduct(incommingData);
-/* 
-    shoppingBasket$.subscribe((shoppingBasket) => { 
-    //}); */
-  }, []);
-/*   if (!incommingProduct) {
-    return <p id="listGetting">Listan hämtas ...</p>;
-  } */
+    if (reRender === true) {
+      calcBasketTot();
+      updateIncommingProduct(incommingData);
+      runReRender(false);
+    } else {
+      calcBasketTot();
+      return;
+    }
+  });
+
   let resetBasket = () => {
     localStorage.removeItem('shoppingBasket');
     updateIncommingProduct([]);
     setReturnProductList(true);
   }
+
   function calcBasketTot(){
     let calcBasketTot = 0;
     if (incommingProduct) {
@@ -43,23 +49,12 @@ export let ShoppingBasket = (props) => {
     }
     else calcBasketTot = 0;
     console.log(calcBasketTot);
+    updateProductTotPrice(calcBasketTot);
     return calcBasketTot + ' Kr';
-  }
-  let checkoutOrderCancelBtn = () => {
-    setReturnProductList(true);
-    console.log('gre');
-    
-    //setGetProductReview(false);
-  }
-  let checkoutOrderBtn = () => {
-    console.log('gre');
-    setReturnProductList(true);
-    alert('Tack för din beställning!');
   }
   let orderProducts = () => {
     setCheckoutOrder(true);
-
-    console.log('Börja här imorgon!!!');
+    console.log('cdsc');
     
   }
   console.log(incommingProduct);
@@ -81,15 +76,17 @@ export let ShoppingBasket = (props) => {
               ? <p id="listGetting">Inga produkter ...</p> 
               : incommingProduct.map((obj, productCount) => {
                 productCount += 1;
-                let calcProductTo = obj.price*obj.quantity; 
+                console.log(obj);
+                
+                let calcProductTot  = obj.price*obj.quantity; 
                 return (
                   <>
                       <tr key={productCount}>
                         <td>{ productCount }</td>
-                        <td>{ obj.productsNamn }</td>
-                        <td>{ obj.price }</td>
+                        <td>{ obj.productsName }</td>
+                        <td>{ obj.price  + ' Kr'}</td>
                         <td>{ obj.quantity }</td>
-                        <td>{ calcProductTo }</td>
+                        <td>{ calcProductTot } Kr</td>
                       </tr>
                     </>
                   );
@@ -102,19 +99,14 @@ export let ShoppingBasket = (props) => {
           <button id="resetBasketBtn" onClick={ resetBasket } className="chooseBtn">Rensa</button>
           <button id="resetBasketBtn" onClick={ orderProducts } className="chooseBtn"
              style={(incommingProduct) ? {display: 'block'} : {display: 'none'}}>Beställ</button>
-          <section id="proudctTotPrice">{ calcBasketTot() }</section>
+          <section id="proudctTotPrice">{ productTotPrice }</section>
         </section>
         <CheckoutOrder
-          checkoutOrderBtn={ checkoutOrderBtn }
-          checkoutOrderCancelBtn={ checkoutOrderCancelBtn }
-          /* checkoutOrderEmtyMess={ checkoutOrderEmtyMess }
-          handleOrderName={ handleOrderName }
-          handleOrderAddress={ handleOrderAddress }
-          checkoutOrderName={ checkoutOrderName }
-          checkoutOrderAddress={ checkoutOrderAddress }
-          checkoutOrder={ checkoutOrder } */
-          incommingProductArr={ incommingProduct }
-
+          setCheckoutOrder={ setCheckoutOrder }
+          checkoutOrder={ checkoutOrder }
+          incommingProductArr={ incommingProduct } 
+          productTotPrice={ productTotPrice }
+          setReturnProductList={ setReturnProductList }
         />
       </section>
     </>

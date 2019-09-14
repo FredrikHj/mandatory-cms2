@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-import { objProductList } from './Repeaters.js';
+import { objAxiosUrls } from './Repeaters.js';
 import axios from 'axios';
-import { log } from 'util';
+import {BehaviorSubject} from "rxjs";
+import { isArray } from 'util';
 
 export let ProductList = (props) => {
   let [ incommingProduct, setincommingProduct ] = useState([]);
@@ -14,13 +15,15 @@ export let ProductList = (props) => {
 
   let [ searchProducts, setSearchProducts ] = useState(' '); // Varför space. annars infogas inte data till tabellen?
   let [ inStock, setInstock ] = useState('');
+  let [ shoppingBasketContent, setShoppingBasketContent ] = useState([]);
+  
   let pages = 1;
   let getIntoPage = 0;
 
   useEffect(() =>{
     // Get products
-    axios.get(`${objProductList.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?1filter[name]=${searchProducts}${inStock}`, {
-      headers: objProductList.cockpitToken
+    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?1filter[name]=${searchProducts}${inStock}`, {
+      headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
       console.log(response);
@@ -30,21 +33,26 @@ export let ProductList = (props) => {
     .catch((error) => {
       //console.log(error);
     });
+    let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
+    let incommingData = JSON.parse(shoppingBasket$.value);
+    
+    setShoppingBasketContent(incommingData);
   }, [changeSkip, searchProducts, inStock]);
-  console.log(objProductList.cockpitToken);
+  
+  console.log(objAxiosUrls.cockpitToken);
   console.log(incommingProduct);
-
- function inputProducts(e) {
+  
+  function inputProducts(e) {
     let targetProduct = e.target.value;
     setSearchProducts(targetProduct);
   }
   let filterProducts = incommingProduct.filter((productsListData) => {
-     return productsListData.name.includes(searchProducts)
-    }
+    return productsListData.name.includes(searchProducts)
+  }
   )
   let productsInStock = (e) => {
     let targetStr = e.target.value;
-
+    
     if (targetStr === 'showProductsInStock') {
       setInstock('&filter[inStock]=${inStock}');
     }
@@ -58,7 +66,7 @@ export let ProductList = (props) => {
   function setPageDecrease() {
     pages = pageNr - 1;
     getIntoPage = (pageNr - 1)*productLimit-productLimit; //Calculate page´s
-   
+    
     if (pages < 1) return;
     else{
       setPageNr(pages);
@@ -79,17 +87,18 @@ export let ProductList = (props) => {
   }
   console.log(incommingProduct.length);
   console.log(productLimit);
-/*   let calcTotPages = () => {
+  /*   let calcTotPages = () => {
     let totPages = parseInt(productTotal / productLimit);
-
+    
     return totPages;
   } */
   let runGoToBastet = () => {
     setGoToBasket(true);
   }
   if ( goToBasket === true) return <Redirect to="/ShoppingBasket"/>
+  console.log(shoppingBasketContent);
   
-   return(
+  return(
     <>
       <section id="inputSearchContainer">
         Sök produkter: <input className="inputWitdhSearch" type="text" onChange={ inputProducts }/><br/><br/>
@@ -104,9 +113,9 @@ export let ProductList = (props) => {
             {(incommingProduct.length === 0)
               ? <p id="listGetting">Listan hämtas ...</p>
               : 
-                filterProducts.map((obj, productCount) => {
-                  productCount += 1;
-                             
+              filterProducts.map((obj, productCount) => {
+                productCount += 1;
+                
                   return (
                   <tr key={productCount}>
                     <td>{ productCount }</td>
@@ -127,11 +136,13 @@ export let ProductList = (props) => {
           <button onClick={ productsInStock } className="showInStockRestetProduct" value="showAllProductsInStock">Återställ</button>            
         </section>
         <section id="pageControlContainer">
+          
           <section></section>
           <section id="setPageContainer">
             <button onClick={ setPageDecrease } className="chooseBtn">-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease } className="chooseBtn">+</button>            
           </section>
-          <button id="goToBasket" className="chooseBtn" onClick={ runGoToBastet }>Varukorgen</button>
+          
+          <section><button id="goToBasket" className="chooseBtn" onClick={ runGoToBastet } style={(shoppingBasketContent === null) ? {display: 'none'} : {display: 'block'}}>Varukorgen</button></section>
         </section>
       </>
   );
