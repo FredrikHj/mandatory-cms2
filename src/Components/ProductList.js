@@ -22,7 +22,7 @@ export let ProductList = (props) => {
 
   useEffect(() =>{
     // Get products
-    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?filter[name]=${searchProducts}${inStock}`, {
+    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?filter[name]=${searchProducts}&${inStock}`, {
       headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
