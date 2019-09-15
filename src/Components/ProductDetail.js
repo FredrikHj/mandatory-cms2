@@ -25,6 +25,7 @@ export let ProductDetail = (props) => {
   let imgChangeNr = 1;
   
   let productId = props.match.params.id;
+  
   useEffect(() => {
     
     // Get Articles
@@ -41,8 +42,7 @@ export let ProductDetail = (props) => {
     .catch((error) => {
       //console.log(error);
     });
-  }, [imgArrIndex //setGetProductReview
-  ]);  
+  }, [imgArrIndex, reviewQuantity]);  
   
   if (!incommingProduct) {
     return <p id="listGetting">Listan hämtas ...</p>;
@@ -106,7 +106,7 @@ export let ProductDetail = (props) => {
 
     setGetProductReview(true)
   }
-  let setReviewQuantity = (quantity) => {
+  let setReviewQuantity = (quantity) => { // Fix
     updateReviewQuantity(quantity);
   }
   
@@ -126,7 +126,7 @@ console.log(reviewQuantity);
           </thead>
           <tbody>
             <tr>
-              <td>{ incommingProduct.name }></td>
+              <td>{ incommingProduct.name }</td>
               <td>{ incommingProduct.price + ' kr' }</td>
               <td>
                 <section id="buyProductContainer">
@@ -154,7 +154,21 @@ console.log(reviewQuantity);
           </tbody>
         </table>
         <section id="reviewLinkContainer">
-          <button onClick={ handleReview } id="reviewList" value="1">{'Antal recensioner: ' + reviewQuantity }</button>
+          <button onClick=
+            {(reviewQuantity === 0)
+              ? null
+              : handleReview 
+            } 
+            id="reviewList" value="1">
+            {(reviewQuantity === 0)
+              ?
+                'Antal recensioner: ' + reviewQuantity + ' -->'
+            
+            
+              :             
+                'Antal recensioner: ' + reviewQuantity
+            }
+          </button>
           <button onClick={ handleReview } className="chooseBtn" id="addReview" value="2">Lägg till</button>
         </section>
           <Reviews
@@ -164,6 +178,7 @@ console.log(reviewQuantity);
             getProductReview={ getProductReview }
             productReviewShow={ productReviewShow }
             setReviewQuantity={ setReviewQuantity }
+            productId={ productId }
           />
         <section id="setImgControlContainer">
           <section id="imgContainer">

@@ -22,16 +22,16 @@ export let ProductList = (props) => {
 
   useEffect(() =>{
     // Get products
-    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?1filter[name]=${searchProducts}${inStock}`, {
+    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?filter[name]=${searchProducts}${inStock}`, {
       headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
-      console.log(response);
       setincommingProduct(response.data.entries);
       setProductTotal(response.data.total)
+      //console.log(response);
     })
     .catch((error) => {
-      //console.log(error);
+      ////console.log(error);
     });
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
@@ -39,8 +39,8 @@ export let ProductList = (props) => {
     setShoppingBasketContent(incommingData);
   }, [changeSkip, searchProducts, inStock]);
   
-  console.log(objAxiosUrls.cockpitToken);
-  console.log(incommingProduct);
+  //console.log(objAxiosUrls.cockpitToken);
+  //console.log(incommingProduct);
   
   function inputProducts(e) {
     let targetProduct = e.target.value;
@@ -60,7 +60,7 @@ export let ProductList = (props) => {
     if (targetStr === 'showAllProductsInStock') {
       setInstock('');
     }
-    console.log(targetStr);
+    //console.log(targetStr);
     
   }
   function setPageDecrease() {
@@ -74,7 +74,7 @@ export let ProductList = (props) => {
     } 
   }
   function setPageIncrease() {  // Fel = Sidor överskrider vad som kommer in
-    console.log('frs');
+    //console.log('frs');
     
     pages = pageNr + 1;
     getIntoPage = (pageNr + 1)*productLimit-productLimit;  //Calculate page´s
@@ -85,8 +85,8 @@ export let ProductList = (props) => {
       setChangeSkip(getIntoPage);
     }
   }
-  console.log(incommingProduct.length);
-  console.log(productLimit);
+  //console.log(incommingProduct.length);
+  //console.log(productLimit);
   /*   let calcTotPages = () => {
     let totPages = parseInt(productTotal / productLimit);
     
@@ -96,7 +96,7 @@ export let ProductList = (props) => {
     setGoToBasket(true);
   }
   if ( goToBasket === true) return <Redirect to="/ShoppingBasket"/>
-  console.log(shoppingBasketContent);
+  //console.log(shoppingBasketContent);
   
   return(
     <>
@@ -115,6 +115,7 @@ export let ProductList = (props) => {
               : 
               filterProducts.map((obj, productCount) => {
                 productCount += 1;
+                console.log(obj._id);
                 
                   return (
                   <tr key={productCount}>

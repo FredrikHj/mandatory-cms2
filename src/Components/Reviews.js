@@ -12,8 +12,7 @@ export let Reviews = (props) => {
 
     useEffect(() => {
         // Get Review
-         axios.get(`${objAxiosUrls.urlGetReviews}`//?=${props.productId}`
-         , {
+         axios.get(`${objAxiosUrls.urlGetReviews}?filter[productId]=${props.productId}`, {
           headers: objAxiosUrls.cockpitToken
         })
         .then(response => {
@@ -24,8 +23,8 @@ export let Reviews = (props) => {
         .catch((error) => {
           console.log(error);
         });
-      }, []);
-        
+    }, []);
+     
     if (!incommingReviews) {
         return <p id="listGetting">Listan hämtas ...</p>;
     }
@@ -63,6 +62,7 @@ export let Reviews = (props) => {
             ,{
                 headers: [ objAxiosUrls.cockpitToken, {"Content-Type": "application/json"} ],
                 data: {
+                    productId: props.productId,
                     title: reviewName,
                     body: reviewMess,
                     rating: reviewRating,
@@ -82,7 +82,7 @@ export let Reviews = (props) => {
     let revertProductDetailBtn = () => {
         props.setGetProductReview(false);
     }
-    props.setReviewQuantity(incommingReviews.length);
+    props.setReviewQuantity(incommingReviews.length); // Fix
     console.log(props.getProductReview);
     return (
         <section id="reviewContainer" style={(props.getProductReview === true) ? {display: 'block'} : {display: 'none'}} >
@@ -92,34 +92,25 @@ export let Reviews = (props) => {
                     <tr><th>Namn</th><th>Recension</th><th>Betyg</th></tr>
                 </thead>
                 <tbody> 
-                    {(incommingReviews.length !== 0)
-                        ? (props.productReviewShow === '2')
+                    {(props.productReviewShow === '2')
                         ?
                             <tr>
                                 <td><input id="reviewInputName" type="text" onChange={ handleReviewName } value={ reviewName } required/></td>   
                                 <td><textarea id="reviewInputMess" type="text" onChange={ handleReviewMess } value={ reviewMess } required/></td>
                                 <td><input id="reviewInputRating" type="number" onChange={ handleReviewRating } value={ reviewRating } required/></td>   
                             </tr>                         
-                            : 
-                            incommingReviews.map((obj, productCount) => {
-                                productCount += 1;
-                                
-                                return (
-                                    <tr>
-                                                <td>{ obj.title }</td>
-                                                <td>{ obj.body }</td>
-                                                <td>{ obj.rating }</td>
-                                            </tr>
-                                    );
-                                })
-                                :  <>
-                                        <tr><td colSpan="10"><p id="noReviewsStr">Inga recensioner ...</p></td></tr> 
-                                        <tr id="noReviewsFields">
-                                            <td><input id="reviewInputName" type="text" onChange={ handleReviewName } value={ reviewName } required/></td>   
-                                            <td><textarea id="reviewInputMess" type="text" onChange={ handleReviewMess } value={ reviewMess } required/></td>
-                                            <td><input id="reviewInputRating" type="number" onChange={ handleReviewRating } value={ reviewRating } required/></td>   
+                        : 
+                        incommingReviews.map((obj, productCount) => {
+                            productCount += 1;
+                            
+                            return (
+                                <tr key={ productCount }>
+                                            <td>{ obj.title }</td>
+                                            <td>{ obj.body }</td>
+                                            <td>{ obj.rating }</td>
                                         </tr>
-                                    </>
+                                );
+                            })
                     }
                 </tbody>
             </table>
@@ -127,8 +118,8 @@ export let Reviews = (props) => {
                 <section id="reviewBtn">
                     <button style={(props.productReviewShow === '1') ? {display: 'none'} : {display: 'block'}} onClick={ reviewCancelBtn } className="chooseBtn" id="addReview">Avbryt</button>
                     <button style={(props.productReviewShow === '1') ? {display: 'none'} : {display: 'block'}} onClick={ reviewCleanBtn } className="chooseBtn" id="addReview">Rensa</button>
-                    <button style={(props.productReviewShow === '1') ? {display: 'none'} : {display: 'block'}} onClick={ reviewAddBtn } className="chooseBtn" id="addReview">Posta</button>
-                    <button style={(props.productReviewShow === '1') ? {display: 'block'} : {display: 'none'}} onClick={ revertProductDetailBtn } className="chooseBtn" id="addReview">Återgå</button>
+                    <button style={(props.productReviewShow === '2') ? {display: 'block'} : {display: 'none'}} onClick={ reviewAddBtn } className="chooseBtn" id="addReview">Posta</button>
+                    <button style={(props.productReviewShow === '2') ? {display: 'none'} : {display: 'block'}} onClick={ revertProductDetailBtn } className="chooseBtn" id="addReview">Återgå</button>
                </section>
 
         </section>
