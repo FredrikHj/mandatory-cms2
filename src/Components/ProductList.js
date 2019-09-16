@@ -4,16 +4,17 @@ import { objAxiosUrls } from './Repeaters.js';
 import axios from 'axios';
 import {BehaviorSubject} from "rxjs";
 import { isArray } from 'util';
+import { isNumericLiteral } from '@babel/types';
 
 export let ProductList = (props) => {
   let [ incommingProduct, setincommingProduct ] = useState([]);
   let [ productTotal, setProductTotal ] = useState(0);
   let [ pageNr, setPageNr ] = useState(1);
   let [ changeSkip, setChangeSkip ] = useState(0);
-  let [ productLimit ] = useState(5); // Article /Page
+  let [ productLimit, setProductLimit ] = useState(5); // Article /Page
   let [ goToBasket, setGoToBasket ] = useState(false);
 
-  let [ searchProducts, setSearchProducts ] = useState(' '); // Varför space. annars infogas inte data till tabellen?
+  let [ searchProducts, setSearchProducts ] = useState(''); // Varför space. annars infogas inte data till tabellen?
   let [ inStock, setInstock ] = useState('');
   let [ shoppingBasketContent, setShoppingBasketContent ] = useState([]);
   
@@ -22,16 +23,16 @@ export let ProductList = (props) => {
 
   useEffect(() =>{
     // Get products
-    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?filter[name]=${searchProducts}&${inStock}`, {
+    axios.get(`${objAxiosUrls.urlGetProductList}?skip=${changeSkip}&limit=${productLimit}?1filter[name]=${searchProducts}${inStock}`, {
       headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
+      console.log(response);
       setincommingProduct(response.data.entries);
       setProductTotal(response.data.total)
-      //console.log(response);
     })
     .catch((error) => {
-      ////console.log(error);
+      //console.log(error);
     });
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
@@ -39,12 +40,16 @@ export let ProductList = (props) => {
     setShoppingBasketContent(incommingData);
   }, [changeSkip, searchProducts, inStock]);
   
-  //console.log(objAxiosUrls.cockpitToken);
-  //console.log(incommingProduct);
+  console.log(objAxiosUrls.cockpitToken);
+  console.log(incommingProduct);
   
-  function inputProducts(e) {
+  function productSearch(e) {
+    setProductLimit(null);
     let targetProduct = e.target.value;
     setSearchProducts(targetProduct);
+    if (targetProduct === '') {
+      setProductLimit(5);
+    }
   }
   let filterProducts = incommingProduct.filter((productsListData) => {
     return productsListData.name.includes(searchProducts)
@@ -60,7 +65,7 @@ export let ProductList = (props) => {
     if (targetStr === 'showAllProductsInStock') {
       setInstock('');
     }
-    //console.log(targetStr);
+    console.log(targetStr);
     
   }
   function setPageDecrease() {
@@ -74,19 +79,21 @@ export let ProductList = (props) => {
     } 
   }
   function setPageIncrease() {  // Fel = Sidor överskrider vad som kommer in
-    //console.log('frs');
+    console.log('frs');
+
+    const nbrOfPages = Math.ceil(productTotal / productLimit);
     
     pages = pageNr + 1;
     getIntoPage = (pageNr + 1)*productLimit-productLimit;  //Calculate page´s
     // If the length is less than incomming products there are no new page
-    if (incommingProduct.length < productLimit) return;   
+    if (pageNr >= nbrOfPages) return;   
     else {
       setPageNr(pages);
       setChangeSkip(getIntoPage);
     }
   }
-  //console.log(incommingProduct.length);
-  //console.log(productLimit);
+  console.log(incommingProduct.length);
+  console.log(productLimit);
   /*   let calcTotPages = () => {
     let totPages = parseInt(productTotal / productLimit);
     
@@ -96,12 +103,12 @@ export let ProductList = (props) => {
     setGoToBasket(true);
   }
   if ( goToBasket === true) return <Redirect to="/ShoppingBasket"/>
-  //console.log(shoppingBasketContent);
+  console.log(shoppingBasketContent);
   
   return(
     <>
       <section id="inputSearchContainer">
-        Sök produkter: <input className="inputWitdhSearch" type="text" onChange={ inputProducts }/><br/><br/>
+        Sök produkter: <input className="inputWitdhSearch" type="text" onChange={ productSearch }/><br/><br/>
       </section>
       
       <div className="pageProductsList">
@@ -109,13 +116,12 @@ export let ProductList = (props) => {
           <thead>
           <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>På lager </th><th>Bild</th></tr>
           </thead>
-          <tbody>
+          <tbody id="tableProductsBody">
             {(incommingProduct.length === 0)
               ? <p id="listGetting">Listan hämtas ...</p>
               : 
               filterProducts.map((obj, productCount) => {
                 productCount += 1;
-                console.log(obj._id);
                 
                   return (
                   <tr key={productCount}>
@@ -139,7 +145,7 @@ export let ProductList = (props) => {
         <section id="pageControlContainer">
           
           <section></section>
-          <section id="setPageContainer">
+          <section id="setPageContainer" style={(searchProducts !== '') ? {display: 'none'} : {display: 'block'}}>
             <button onClick={ setPageDecrease } className="chooseBtn">-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease } className="chooseBtn">+</button>            
           </section>
           

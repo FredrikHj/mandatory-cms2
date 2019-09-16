@@ -74,17 +74,17 @@ body{
   text-align: center;
 }  
 #pageControlContainer{
-  position: absolute;
-  width: 463px;
-  top: 553px;
-  left: calc(50% - 150px);
+  border: 1px solid;
+  position: relative;
+  width: 100%;
+  top: 63px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  text-align: right;
 }
 #setPageContainer{
-  position: absolute;
+  border: 1px solid;
+  position: relative;
   top: 13px;
   left: 99px;
   display: flex;
@@ -113,7 +113,7 @@ body{
 }
 #showInStockContainer{
   position: relative;
-  top: -3px;
+  top: 20px;
   left: 250px;
   width: 325px;
   display: flex;
@@ -415,7 +415,7 @@ body{
   border-collapse: collapse;
   width: 100%;
   margin-top: -80px;
-  margin-bottom: 14px
+  margin-bottom: 14px;
 }
 #tableProducts td, #tableProducts th {
   border: 1px solid #ddd;
@@ -431,7 +431,19 @@ body{
   background-color: #4CAF50;
   color: white;
 }
-
+#tableProducts body tr{
+  display: block;
+}
+#tableProductsBody {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+}
+/* #tableProducts thead, tbody tr {
+  display:table;
+  width:100%;
+  table-layout:fixed;
+} */
 /* ==============  Table style --> Review ============== */
 #tableReview {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
