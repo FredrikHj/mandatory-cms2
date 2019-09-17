@@ -392,6 +392,10 @@ main{
 #proudctTotPrice{
   float: right;
   margin-right: 10px;
+  font-weight: bold;
+  font-size: 30px;
+  color: red;
+  letter-spacing: 5px;
 }
 #basketFooter{
   display: flex;
@@ -459,7 +463,7 @@ thead, tbody tr {
   table-layout:fixed;
 }
 
-/* =============== Table style --> Product ============== */
+/* =============== Table style --> Product / Basket ============== */
 #tableProducts {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -486,7 +490,9 @@ thead, tbody tr {
 .tableProductsTh2{
   width: 50%;
 }
-
+.tableProductsBasketTh2{
+  width: 20%;
+}
 /* =============== Table style --> Product Detail ============== */
 #tableProduct1 {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;

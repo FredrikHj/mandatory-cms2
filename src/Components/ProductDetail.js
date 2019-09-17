@@ -78,17 +78,14 @@ export let ProductDetail = (props) => {
   };
   let addToBasket = () => {
     setChooseBtn(true);
-    console.log(shoppingBasketArr);
-    console.log(incommingProduct.name);
-    
+// Fungerar inte som tänkt ==================================================
     for (let index = 0; index < shoppingBasketArr.length; index++) {
       let contentsOfObj = shoppingBasketArr[index].productsName;
       console.log(contentsOfObj);
       if (contentsOfObj === incommingProduct.name) {
-        console.log('fs');
+
         console.log(shoppingBasketArr[index].quantity);
         shoppingBasketArr[index].quantity += productQuantity;
-        console.log('Ökar');
       }
 /*       // Check if a key exist     
       if (test in shoppingBasketObj){
@@ -97,19 +94,8 @@ export let ProductDetail = (props) => {
       else{
         shoppingBasketObj['quantity'] = productQuantity;
         console.log('Oförändrad'); 
-      }
-
- */      /* 
-      for (const key in element) {
-        let test = element[key];
-        console.log(test);
-          
-        
-      } */
-
-      
-      
-    }
+      } */  
+}
     // Reset basket
  //   for (let key in shoppingBasketObj) {
       shoppingBasketObj['productsName'] = incommingProduct.name;
@@ -118,12 +104,9 @@ export let ProductDetail = (props) => {
       
       shoppingBasketArr.push(shoppingBasketObj);
       // }
-      
-      // Add the product
-
-
-    // Saving the shoppingBasketArr into localStorage
-    window.localStorage.setItem('shoppingBasket', JSON.stringify(shoppingBasketArr));
+// =============================================================================
+  // Saving the shoppingBasketArr into localStorage
+  window.localStorage.setItem('shoppingBasket', JSON.stringify(shoppingBasketArr));
   };
   let addProductQuantity  = (e) => {
     let targetNr = parseInt(e.target.value);      
@@ -139,9 +122,7 @@ export let ProductDetail = (props) => {
     setChooseBtnName('ToBasket');
   };
   let handleReview = (e) => {
-    let targetBtn = e.target.value;
-    console.log(targetBtn);
-    
+    let targetBtn = e.target.value;    
     if (targetBtn === '1') setProductReviewShow(targetBtn);
     if (targetBtn === '2') setProductReviewShow(targetBtn);
     setGetProductReview(true)

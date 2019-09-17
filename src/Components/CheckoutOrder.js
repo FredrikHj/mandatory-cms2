@@ -4,12 +4,11 @@ import { objAxiosUrls } from './Repeaters.js';
 import axios from 'axios';
 
 export let CheckoutOrder = (props) => {
-  //let [ incommingReviews, setIncommingReviews ] = useState([]);
   let [ checkoutOrderEmtyMess, setCheckoutOrderEmtyMess ] = useState('');    // If no field is filled the text is saved here
   let [ checkoutOrderName, setCheckoutOrderName ] = useState(['']);
   let [ checkoutOrderAddress, setCheckoutOrderAddress ] = useState('');
-  let [ ordersDataProducts, setOrdersProductsData ] = useState(null);
   let [ orderNr, setOrderNr ] = useState('');
+
   useEffect(() =>{
     // Get products
     axios.get(`${objAxiosUrls.urlGetCheckoutOrder}`, {
@@ -78,7 +77,6 @@ export let CheckoutOrder = (props) => {
           // Emtying all field, data and stuff corresponding to the order
           setCheckoutOrderName('');
           setCheckoutOrderAddress('');
-          ordersDataProducts = [];
           props.setReturnProductList(true);
           localStorage.removeItem('shoppingBasket');
           alert('Tack för din beställning - Order Nr: ' + orderNr);
@@ -135,7 +133,7 @@ export let CheckoutOrder = (props) => {
                     <td>{ productOrderCount }</td>
                     <td>{ obj.productsName }</td>
                     <td>{ obj.quantity }</td>
-                    <td>{ obj.quantity*obj.price }</td>
+                    <td>{ obj.quantity*obj.price + ' Kr'}</td>
                   </tr>
                 );
               })

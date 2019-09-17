@@ -20,7 +20,7 @@ export let ShoppingBasket = (props) => {
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
     calcBasketTot();
-    console.log(incommingData);
+    //console.log(incommingData);
     
     //console.log(incommingData);
     if (reRender === true) {
@@ -55,6 +55,7 @@ export let ShoppingBasket = (props) => {
     setCheckoutOrder(true);
     
   }
+  // Valde atr inte ha med den då man kan rensa men då hela på en gång!!!
   let removeProductPost = (e) => {
     let targetRemoveProductIndex = parseInt(e.target.value)-1;
     console.log(targetRemoveProductIndex);
@@ -65,6 +66,7 @@ export let ShoppingBasket = (props) => {
     let targetRemoveProductId = e.target.id;
     
   }
+  //=======================================================================
   if ( returnProductList === true) return <Redirect to="/"/>
 
   return(      
@@ -77,7 +79,7 @@ export let ShoppingBasket = (props) => {
       <section id="shoppingBasketContainer">
         <table id="tableProducts">
           <thead>
-            <tr><th>Nr</th><th>Produktnamn</th><th>Enhetspris</th><th>Antal</th><th>Totalt</th></tr>
+            <tr><th className="tableProductsTh1">Nr</th><th className="tableProductsTh2">Produktnamn</th><th className="tableProductsBasketTh2">Enhetspris</th><th>Antal</th><th>Totalt</th></tr>
           </thead>
           <tbody>
             {(!incommingProduct)
@@ -89,11 +91,11 @@ export let ShoppingBasket = (props) => {
                 return (
                   <>
                       <tr key={productCount}>
-                        <td>{ productCount }</td>
-                        <td>{ obj.productsName }</td>
-                        <td>{ obj.price  + ' Kr'}</td>
+                        <td className="tableProductsTh1">{ productCount }</td>
+                        <td className="tableProductsTh2">{ obj.productsName }</td>
+                        <td className="tableProductsBasketTh2">{ obj.price  + ' Kr'}</td>
                         <td>{ obj.quantity }</td>
-                        <td>{ calcProductTot } Kr</td>
+                        <td>{ calcProductTot + ' Kr'}</td>
                       </tr>
                     </>
                   );
@@ -106,7 +108,7 @@ export let ShoppingBasket = (props) => {
           <button id="resetBasketBtn" onClick={ resetBasket } className="chooseBtn">Rensa</button>
           <button id="resetBasketBtn" onClick={ orderProducts } className="chooseBtn"
              style={(incommingProduct) ? {display: 'block'} : {display: 'none'}}>Beställ</button>
-          <section id="proudctTotPrice">{ productTotPrice }</section>
+          <section id="proudctTotPrice">{ productTotPrice + ' Kr'}</section>
         </section>
         <CheckoutOrder
           setCheckoutOrder={ setCheckoutOrder }
