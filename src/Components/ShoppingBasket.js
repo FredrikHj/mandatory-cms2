@@ -9,7 +9,7 @@ import { objAxiosUrls } from './Repeaters.js';
 //import { shoppingBasket$ } from './Store.js';
 
 
-const shoppingBasketArr = [];
+
 
 export let ShoppingBasket = (props) => {
   let [ reRender, runReRender ] = useState(true);
@@ -21,17 +21,17 @@ export let ShoppingBasket = (props) => {
   useEffect(() => {
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
-    console.log(incommingData);
-    if (reRender === true) {
+  
+/*     //console.log(incommingData);
+    if (reRender === true) { */
       calcBasketTot();
       updateIncommingProduct(incommingData);
-      runReRender(false);
-    } else {
+      //runReRender(false);
+   // } else {
       calcBasketTot();
-      return;
-    }
-  });
-
+/*       return;
+    } */
+  }, []);
   let resetBasket = () => {
     localStorage.removeItem('shoppingBasket');
     updateIncommingProduct([]);
@@ -48,17 +48,16 @@ export let ShoppingBasket = (props) => {
       }
     }
     else calcBasketTot = 0;
-    console.log(calcBasketTot);
     updateProductTotPrice(calcBasketTot);
     return calcBasketTot + ' Kr';
   }
   let orderProducts = () => {
     setCheckoutOrder(true);
-    console.log('cdsc');
     
   }
-  console.log(incommingProduct);
   if ( returnProductList === true) return <Redirect to="/"/>
+  console.log(incommingProduct.length);
+  
   return(      
     <>
       <Helmet>
@@ -73,11 +72,9 @@ export let ShoppingBasket = (props) => {
           </thead>
           <tbody>
             {(!incommingProduct)
-              ? <p id="listGetting">Inga produkter ...</p> 
+              ? <tr><td><p id="listGetting">Inga produkter ...</p></td></tr> 
               : incommingProduct.map((obj, productCount) => {
-                productCount += 1;
-                console.log(obj);
-                
+                productCount += 1;                
                 let calcProductTot  = obj.price*obj.quantity; 
                 return (
                   <>

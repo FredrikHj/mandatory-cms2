@@ -16,7 +16,7 @@ export let CheckoutOrder = (props) => {
       headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
-      console.log(response.data.entries);
+      //console.log(response.data.entries);
 
     })
     .catch((error) => {
@@ -73,9 +73,8 @@ export let CheckoutOrder = (props) => {
       })
       .then(response => {
         let incommingData = response;
-        console.log(incommingData);
+        //console.log(incommingData);
         if (incommingData) {
-          console.log(orderProductsDataArr);
           // Emtying all field, data and stuff corresponding to the order
           setCheckoutOrderName('');
           setCheckoutOrderAddress('');
@@ -86,7 +85,7 @@ export let CheckoutOrder = (props) => {
         } else return;
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
  
     }
@@ -98,57 +97,62 @@ export let CheckoutOrder = (props) => {
     
     //setGetProductReview(false);
   }
-  console.log(ordersDataProducts);
-  
-    return(
-      <section id="checkoutOrderedContainer" style={(props.checkoutOrder === true) ? {display: 'block'} : {display: 'none'}}>
-        <Helmet>
-          <meta charSet="utf-8" />
-          <title>{'Webhshopp - Varukorg'}</title>
-        </Helmet>
-        <p className="headLineRewview">Beställning</p>
-          <table id="tableReview">
-            <thead>
-              <tr><th>Namn</th><th>Adress</th><th colSpan="2">Totalt pris</th></tr>
-              <tr>
-                <td><input id="inputCheckoutOrder" type="text" onChange={ handleOrderName } value={ checkoutOrderName } required/></td>   
-                <td><input id="inputCheckoutOrder" type="text" onChange={ handleOrderAddress } value={ checkoutOrderAddress } required/></td>
-                <td colSpan="2">{ props.productTotPrice + ' Kr'}</td>   
-              </tr>
-              <br></br>
-              <tr>
-                <th colSpan="10">
-                  Beställda produkter
-                </th>  
-              </tr>    
-              <tr>
+  return(
+    <section id="checkoutOrderedContainer" style={(props.checkoutOrder === true) ? {display: 'block'} : {display: 'none'}}>
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{'Webhshopp - Varukorg'}</title>
+      </Helmet>
+      <p className="headLineRewview">Beställning</p>
+
+      <table id="tableCheckoutOrdered1">
+          <thead>
+            <tr>
+              <th className="table1CheckoutOrderedTh1">Namn</th><th className="table1CheckoutOrderedTh2">Adress</th><th colSpan="2">Totalt pris</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr>
+              <td className="table1CheckoutOrderedTh1"><input id="inputCheckoutOrder" type="text" onChange={ handleOrderName } value={ checkoutOrderName } required/></td>   
+              <td className="table1CheckoutOrderedTh2"><input id="inputCheckoutOrder" type="text" onChange={ handleOrderAddress } value={ checkoutOrderAddress } required/></td>
+              <td colSpan="2">{ props.productTotPrice + ' Kr'}</td>   
+            </tr>
+          </tbody>
+      </table>
+
+      <section id="tableCheckoutOrdered2Container">
+        <p id="checkoutOrderedProductHeadline">Beställda produkter</p>
+        <table id="tableCheckoutOrdered2">
+          <thead>
+            <tr>
               <th>Nr</th><th>Namn</th><th>Antal</th><th>Rad pris</th>
-              </tr> 
-            </thead>
-            <tbody>
-              {
-
-                props.incommingProductArr.map((obj, productOrderCount) => {
-                  productOrderCount+= 1;
-                  return (
-                    <tr key={ productOrderCount }>
-                      <td>{ productOrderCount }</td>
-                      <td>{ obj.productsName }</td>
-                      <td>{ obj.quantity }</td>
-                      <td>{ obj.quantity*obj.price }</td>
-                    </tr>
-                  );
-                })
-              }
-            </tbody>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              
+              props.incommingProductArr.map((obj, productOrderCount) => {
+                productOrderCount+= 1;
+                return (
+                  <tr key={ productOrderCount }>
+                    <td>{ productOrderCount }</td>
+                    <td>{ obj.productsName }</td>
+                    <td>{ obj.quantity }</td>
+                    <td>{ obj.quantity*obj.price }</td>
+                  </tr>
+                );
+              })
+            }
+          </tbody>
         </table>
-        <p id="checkoutOrderFieldEmtyMess">{ checkoutOrderEmtyMess }</p>
-        <section id="checkoutOrderBtn">
-          <button onClick={ checkoutOrderCancelBtn } className="chooseBtn" id="addReview">Avbryt</button>
-          <button onClick={ checkoutOrderBtn } className="chooseBtn" id="addReview">Lägg beställning</button>
-        </section>
-                
       </section>
+      <p id="checkoutOrderFieldEmtyMess">{ checkoutOrderEmtyMess }</p>
+      <section id="checkoutOrderBtn">
+        <button onClick={ checkoutOrderCancelBtn } className="chooseBtn" id="addReview">Avbryt</button>
+        <button onClick={ checkoutOrderBtn } className="chooseBtn" id="addReview">Lägg beställning</button>
+      </section>
+              
+    </section>
 
-    );
-  }
+  );
+}

@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 import { objAxiosUrls } from './Repeaters.js';
 import axios from 'axios';
 
-export let Reviews = (props) => {
+export let ProductReview = (props) => {
     let [ incommingReviews, setIncommingReviews ] = useState([]);
     let [ reviewName, setReviewName ] = useState('');
     let [ reviewMess, setReviewMess ] = useState('');
     let [ reviewRating, setReviewRating ] = useState('');
     let [ reviewAddEmtyStr, setReviewAddEmtyStr] = useState('');    // If no field is filled the text is saved here
+console.log(props.productId);
 
     useEffect(() => {
         // Get Review
@@ -89,7 +90,9 @@ export let Reviews = (props) => {
             <p className="headLineRewview">{'Recensioner för - ' + props.productName }  </p>
             <table id="tableReview">
                 <thead>
-                    <tr><th>Namn</th><th>Recension</th><th>Betyg</th></tr>
+                    <tr>
+                        <th>Namn</th><th>Recension</th><th>Betyg</th>
+                    </tr>
                 </thead>
                 <tbody> 
                     {(props.productReviewShow === '2')
@@ -105,10 +108,10 @@ export let Reviews = (props) => {
                             
                             return (
                                 <tr key={ productCount }>
-                                            <td>{ obj.title }</td>
-                                            <td>{ obj.body }</td>
-                                            <td>{ obj.rating }</td>
-                                        </tr>
+                                    <td>{ obj.title }</td>
+                                    <td>{ obj.body }</td>
+                                    <td>{ obj.rating }</td>
+                                </tr>
                                 );
                             })
                     }

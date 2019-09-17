@@ -7,11 +7,12 @@ import { isArray } from 'util';
 import { isNumericLiteral } from '@babel/types';
 
 export let ProductList = (props) => {
+  let startProductLimit = 5;
   let [ incommingProduct, setincommingProduct ] = useState([]);
   let [ productTotal, setProductTotal ] = useState(0);
   let [ pageNr, setPageNr ] = useState(1);
   let [ changeSkip, setChangeSkip ] = useState(0);
-  let [ productLimit, setProductLimit ] = useState(5); // Article /Page
+  let [ productLimit, setProductLimit ] = useState(startProductLimit); // Article /Page
   let [ goToBasket, setGoToBasket ] = useState(false);
 
   let [ searchProducts, setSearchProducts ] = useState(''); // Varför space. annars infogas inte data till tabellen?
@@ -19,7 +20,7 @@ export let ProductList = (props) => {
   let [ shoppingBasketContent, setShoppingBasketContent ] = useState([]);
   
   let pages = 1;
-  let getIntoPage = 0;
+  let productToSkip = 0;
 
   useEffect(() =>{
     // Get products
@@ -27,7 +28,7 @@ export let ProductList = (props) => {
       headers: objAxiosUrls.cockpitToken
     })
     .then(response => {
-      console.log(response);
+      //console.log(response);
       setincommingProduct(response.data.entries);
       setProductTotal(response.data.total)
     })
@@ -40,21 +41,18 @@ export let ProductList = (props) => {
     setShoppingBasketContent(incommingData);
   }, [changeSkip, searchProducts, inStock]);
   
-  console.log(objAxiosUrls.cockpitToken);
-  console.log(incommingProduct);
-  
   function productSearch(e) {
-    setProductLimit(null);
+    let removeProductLimit = 0;
+    setProductLimit(removeProductLimit);
     let targetProduct = e.target.value;
     setSearchProducts(targetProduct);
     if (targetProduct === '') {
-      setProductLimit(5);
+      setProductLimit(startProductLimit);
     }
   }
   let filterProducts = incommingProduct.filter((productsListData) => {
     return productsListData.name.includes(searchProducts)
-  }
-  )
+  })
   let productsInStock = (e) => {
     let targetStr = e.target.value;
     
@@ -65,35 +63,30 @@ export let ProductList = (props) => {
     if (targetStr === 'showAllProductsInStock') {
       setInstock('');
     }
-    console.log(targetStr);
-    
   }
   function setPageDecrease() {
     pages = pageNr - 1;
-    getIntoPage = (pageNr - 1)*productLimit-productLimit; //Calculate page´s
-    
+    productToSkip = (pageNr - 1)*productLimit-productLimit; //Calculate page´s
+
     if (pages < 1) return;
     else{
       setPageNr(pages);
-      setChangeSkip(getIntoPage);
+      setChangeSkip(productToSkip);
     } 
+
   }
   function setPageIncrease() {  // Fel = Sidor överskrider vad som kommer in
-    console.log('frs');
-
-    const nbrOfPages = Math.ceil(productTotal / productLimit);
-    
     pages = pageNr + 1;
-    getIntoPage = (pageNr + 1)*productLimit-productLimit;  //Calculate page´s
-    // If the length is less than incomming products there are no new page
-    if (pageNr >= nbrOfPages) return;   
+    const pagesTot = Math.ceil(productTotal / productLimit); // Tot pages¨
+
+    productToSkip = (pageNr + 1)*productLimit-productLimit;  //Calculate page´s
+    
+    if (pageNr >= pagesTot) return;   
     else {
       setPageNr(pages);
-      setChangeSkip(getIntoPage);
+      setChangeSkip(productToSkip);
     }
   }
-  console.log(incommingProduct.length);
-  console.log(productLimit);
   /*   let calcTotPages = () => {
     let totPages = parseInt(productTotal / productLimit);
     
@@ -103,7 +96,6 @@ export let ProductList = (props) => {
     setGoToBasket(true);
   }
   if ( goToBasket === true) return <Redirect to="/ShoppingBasket"/>
-  console.log(shoppingBasketContent);
   
   return(
     <>
@@ -114,19 +106,24 @@ export let ProductList = (props) => {
       <div className="pageProductsList">
         <table id="tableProducts">
           <thead>
-          <tr><th>Nr</th><th>Produktnamn</th><th>Pris</th><th>På lager </th><th>Bild</th></tr>
+            <tr>
+              <th className="tableProductsTh1">Nr</th>
+              <th className="tableProductsTh2">Produktnamn</th>
+              <th>Pris</th>
+              <th>På lager</th>
+              <th>Bild</th>
+            </tr>
           </thead>
           <tbody id="tableProductsBody">
             {(incommingProduct.length === 0)
-              ? <p id="listGetting">Listan hämtas ...</p>
-              : 
+              ? <tr><td><p id="listGetting">Listan hämtas ...</p></td></tr>              : 
               filterProducts.map((obj, productCount) => {
                 productCount += 1;
                 
                   return (
                   <tr key={productCount}>
-                    <td>{ productCount }</td>
-                    <td><Link to={"/ProductDetail/" + obj._id }>{ obj.name }</Link></td>
+                    <td className="tableProductsTh1">{ productCount }</td>
+                    <td className="tableProductsTh2"><Link to={"/ProductDetail/" + obj._id }>{ obj.name }</Link></td>
                     <td>{ obj.price +' kr' }</td>
                     <td>{ obj.inStockQuantity + ' st' }</td>
                   <td className="productHeadImgTd">{ <img className="productHeadImg" src={'https://cmstenta.devspace.host/' + obj.imgesGallery[0].path } alt="produkt bild"/> }</td>
@@ -136,7 +133,8 @@ export let ProductList = (props) => {
                 }
           </tbody>
         </table >
-      </div>      
+      </div>
+      <section id="productListFooter">
         <section id="showInStockContainer">
           <button onClick={ productsInStock } className="showInStockAllProduct"  value="showProductsInStock">Alla produkter på lager</button>
           <p id="showInStock1Letter">{ ' / '}</p>
@@ -146,11 +144,14 @@ export let ProductList = (props) => {
           
           <section></section>
           <section id="setPageContainer" style={(searchProducts !== '') ? {display: 'none'} : {display: 'block'}}>
-            <button onClick={ setPageDecrease } className="chooseBtn">-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease } className="chooseBtn">+</button>            
+            <div id="setPageContainerFlexBox">            
+              <button onClick={ setPageDecrease } className="chooseBtn">-</button> <p id="sideNr">{ pageNr }</p> <button onClick={ setPageIncrease } className="chooseBtn">+</button>            
+            </div>
           </section>
           
-          <section><button id="goToBasket" className="chooseBtn" onClick={ runGoToBastet } style={(shoppingBasketContent === null) ? {display: 'none'} : {display: 'block'}}>Varukorgen</button></section>
+          <section><button id="goToBasket" className="chooseBtn" onClick={ runGoToBastet } style={(shoppingBasketContent === null) ? {opacity: '0'} : {opacity: '1'}}>Varukorgen</button></section>
         </section>
-      </>
+      </section>
+    </>
   );
 }

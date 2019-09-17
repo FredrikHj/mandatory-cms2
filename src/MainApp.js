@@ -18,24 +18,26 @@ class MainApp extends Component {
  // Add css roule for headline if PD, wither and text-align: center;
   render() { 
     return (
-      <Router>
-        <Helmet>
-        <meta charSet="utf-8" />
-        <title>{'Webhshopp'}</title>
-        </Helmet>
-        <div id="appBody">
-         <p className="headLine">Webbshopp</p>
-          <div id="headLinks">
-            <Link to="/"><p>Produktlistan</p></Link>
+      <main>
+        <Router>
+          <Helmet>
+          <meta charSet="utf-8" />
+          <title>{'Webhshopp'}</title>
+          </Helmet>
+          <div id="appBody">
+          <p className="headLine">Webbshopp</p>
+            <div id="headLinks">
+              <Link to="/"><p>Produktlistan</p></Link>
+            </div>
+
+            <Route exact path="/" component={ ProductList }/>
+            <Route exact path="/ProductDetail/:id" component={ ProductDetail }/>
+            <Route exact path="/ShoppingBasket" component={ ShoppingBasket }/>
+
+
           </div>
-
-          <Route exact path="/" component={ ProductList }/>
-          <Route exact path="/ProductDetail/:id" component={ ProductDetail }/>
-          <Route exact path="/ShoppingBasket" component={ ShoppingBasket }/>
-
-
-        </div>
       </Router>
+      </main>
     );
   }
 }
