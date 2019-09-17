@@ -9,8 +9,6 @@ export let ProductReview = (props) => {
     let [ reviewMess, setReviewMess ] = useState('');
     let [ reviewRating, setReviewRating ] = useState('');
     let [ reviewAddEmtyStr, setReviewAddEmtyStr] = useState('');    // If no field is filled the text is saved here
-console.log(props.productId);
-
     useEffect(() => {
         // Get Review
          axios.get(`${objAxiosUrls.urlGetReviews}?filter[productId]=${props.productId}`, {

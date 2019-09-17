@@ -20,7 +20,8 @@ export let ShoppingBasket = (props) => {
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
     calcBasketTot();
-  
+    console.log(incommingData);
+    
     //console.log(incommingData);
     if (reRender === true) {
       updateIncommingProduct(incommingData);
@@ -88,7 +89,7 @@ export let ShoppingBasket = (props) => {
                 return (
                   <>
                       <tr key={productCount}>
-                        <td><button id="" value={ productCount } onClick={ removeProductPost }>X</button><div>{ productCount }</div></td>
+                        <td>{ productCount }</td>
                         <td>{ obj.productsName }</td>
                         <td>{ obj.price  + ' Kr'}</td>
                         <td>{ obj.quantity }</td>

@@ -4,6 +4,8 @@ import { objAxiosUrls } from './Repeaters.js';
 import { ProductReview } from './Reviews.js';
 import { updateShoppingBasket, currentShoppingBasket$ } from './Store.js';
 import axios from 'axios';
+import { log } from 'util';
+import { tsExternalModuleReference } from '@babel/types';
 let shoppingBasketArr = [];
 
 
@@ -29,10 +31,7 @@ export let ProductDetail = (props) => {
   
   useEffect(() => {
    currentShoppingBasket$.subscribe((currentShoppingBasket) => {
-      console.log(currentShoppingBasket);
-       if (currentShoppingBasket.length === 0) {
-         console.log('thb');
-         
+       if (currentShoppingBasket.length === 0) {       
         // Emtying the shoppingBasketArr
         shoppingBasketArr = [];
       }
@@ -43,7 +42,7 @@ export let ProductDetail = (props) => {
     })
     .then(response => {
       let incommingData = response.data.entries[0];
-      console.log(incommingData);
+      //console.log(incommingData);
       updateShoppingBasket(incommingData);
       setIncomminngProduct(incommingData);                          // 
       updateImgSrc(incommingData.imgesGallery[imgArrIndex].path);   // 
@@ -58,7 +57,6 @@ export let ProductDetail = (props) => {
     return <p id="listGetting">Listan hämtas ...</p>;
   };
   let imgDecrease = () => {
-    console.log('frs');
     imgChangeArrIndex = imgArrIndex - 1;
     imgChangeNr = imgCurrentNr - 1; 
     
@@ -80,41 +78,55 @@ export let ProductDetail = (props) => {
   };
   let addToBasket = () => {
     setChooseBtn(true);
-    
+    console.log(shoppingBasketArr);
     console.log(incommingProduct.name);
     
-    // Check if a key exist     
-    if (incommingProduct.name in shoppingBasketObj){
-      console.log('rga');
-      shoppingBasketObj['quantity'] += productQuantity;
-      console.log('Ökar');
+    for (let index = 0; index < shoppingBasketArr.length; index++) {
+      let contentsOfObj = shoppingBasketArr[index].productsName;
+      console.log(contentsOfObj);
+      if (contentsOfObj === incommingProduct.name) {
+        console.log('fs');
+        console.log(shoppingBasketArr[index].quantity);
+        shoppingBasketArr[index].quantity += productQuantity;
+        console.log('Ökar');
+      }
+/*       // Check if a key exist     
+      if (test in shoppingBasketObj){
+
+      }
+      else{
+        shoppingBasketObj['quantity'] = productQuantity;
+        console.log('Oförändrad'); 
+      }
+
+ */      /* 
+      for (const key in element) {
+        let test = element[key];
+        console.log(test);
+          
+        
+      } */
+
+      
+      
     }
-    else{
-      shoppingBasketObj['quantity'] = productQuantity;
-      console.log('Oförändrad'); 
-    }  
     // Reset basket
  //   for (let key in shoppingBasketObj) {
-        setShoppingBasketObj({
-          productsName: incommingProduct.name,
-          quantity: productQuantity,
-          price: parseInt(incommingProduct.price),
-        });
+      shoppingBasketObj['productsName'] = incommingProduct.name;
+      shoppingBasketObj['quantity'] = productQuantity;
+      shoppingBasketObj['price'] = parseInt(incommingProduct.price);
+      
       shoppingBasketArr.push(shoppingBasketObj);
-   // }
-    console.log(shoppingBasketArr);
-    
-    // Add the product
+      // }
+      
+      // Add the product
 
 
     // Saving the shoppingBasketArr into localStorage
     window.localStorage.setItem('shoppingBasket', JSON.stringify(shoppingBasketArr));
   };
   let addProductQuantity  = (e) => {
-    let targetNr = parseInt(e.target.value);  
-
-    console.log(typeof targetNr);
-    
+    let targetNr = parseInt(e.target.value);      
     updateProductQuantity(targetNr);
   };
   
@@ -132,9 +144,6 @@ export let ProductDetail = (props) => {
     
     if (targetBtn === '1') setProductReviewShow(targetBtn);
     if (targetBtn === '2') setProductReviewShow(targetBtn);
-
-    console.log(targetBtn);
-
     setGetProductReview(true)
   }
   let setReviewQuantity = (quantity) => { // Fix
@@ -143,9 +152,6 @@ export let ProductDetail = (props) => {
  
   if ( chooseBtnName === 'ProductList') return <Redirect to="/"/>;
   if ( chooseBtnName === 'ToBasket') return <Redirect to="/ShoppingBasket"/>;
-
-  console.log(shoppingBasketArr);
-  console.log(shoppingBasketObj);
 
   return(       
     <>
@@ -166,7 +172,7 @@ export let ProductDetail = (props) => {
                 <section id="buyProductContainer">
                   <section id="buyProduct">
                     <p id="">Köp:</p><input id="buyProductInput" type="number" onChange={ addProductQuantity } min="1"/>
-                    <button id="addBasketBtn" className="chooseBtn"onClick={ addToBasket }>Lägg i Varukorgen</button>
+                    <button id="addBasketBtn" className="chooseBtn" onClick={ addToBasket }>Lägg i Varukorgen</button>
                   </section>
                 </section>
               </section>
@@ -234,8 +240,6 @@ export let ProductDetail = (props) => {
 }
 
 let ChooseBtn = (props) => {
-  console.log(props);
-
   return(
     <section id="chooseBtnShoppBasket" style={( props.show === true) ? {display: 'block'} : null}>
       <button className="chooseBtn" onClick={ props.moreShopping }>Fortsätt handla</button>
