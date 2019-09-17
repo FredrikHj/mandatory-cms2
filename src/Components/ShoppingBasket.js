@@ -21,17 +21,17 @@ export let ShoppingBasket = (props) => {
   useEffect(() => {
     let shoppingBasket$ = new BehaviorSubject(window.localStorage.getItem('shoppingBasket'));
     let incommingData = JSON.parse(shoppingBasket$.value);
+    calcBasketTot();
   
-/*     //console.log(incommingData);
-    if (reRender === true) { */
-      calcBasketTot();
+    //console.log(incommingData);
+    if (reRender === true) {
       updateIncommingProduct(incommingData);
-      //runReRender(false);
-   // } else {
+      runReRender(false);
+    } else {
       calcBasketTot();
-/*       return;
-    } */
-  }, []);
+      return;
+    }
+  }, [incommingProduct]);
   let resetBasket = () => {
     localStorage.removeItem('shoppingBasket');
     updateIncommingProduct([]);
@@ -55,6 +55,20 @@ export let ShoppingBasket = (props) => {
     setCheckoutOrder(true);
     
   }
+  let removeProductPost = (e) => {
+    let targetRemoveProductIndex = parseInt(e.target.value)-1;
+    console.log(targetRemoveProductIndex);
+    
+    let newMBasketList = incommingProduct.splice(targetRemoveProductIndex, 1, incommingProduct.splice(targetRemoveProductIndex + 1) );
+      
+/* 
+    let basketListSlice1 = incommingProduct.slice(0, targetRemoveProductIndex);
+    let basketListSlice2 = basketListSlice1.slice(targetRemoveProductIndex + 1);
+       */
+    updateIncommingProduct(newMBasketList);
+    let targetRemoveProductId = e.target.id;
+    
+  }
   if ( returnProductList === true) return <Redirect to="/"/>
   console.log(incommingProduct.length);
   
@@ -74,12 +88,13 @@ export let ShoppingBasket = (props) => {
             {(!incommingProduct)
               ? <tr><td><p id="listGetting">Inga produkter ...</p></td></tr> 
               : incommingProduct.map((obj, productCount) => {
-                productCount += 1;                
+                productCount += 1;
+
                 let calcProductTot  = obj.price*obj.quantity; 
                 return (
                   <>
                       <tr key={productCount}>
-                        <td>{ productCount }</td>
+                        <td><button id="" value={ productCount } onClick={ removeProductPost }>X</button><div>{ productCount }</div></td>
                         <td>{ obj.productsName }</td>
                         <td>{ obj.price  + ' Kr'}</td>
                         <td>{ obj.quantity }</td>

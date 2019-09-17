@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom
 
 import { ProductList } from './Components/ProductList.js';
 import { ProductDetail } from './Components/ProductDetail.js';
+
 import { ShoppingBasket } from './Components/ShoppingBasket.js';
 
 class MainApp extends Component {
