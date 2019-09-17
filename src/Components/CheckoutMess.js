@@ -13,7 +13,7 @@ export let AuthorsAll = (props) => {
       headers: { 'Cockpit-Token': '3dcadbb31033dd704673a595544b15}' }
     })
     .then(response => {
-      console.log(response.data.entries);
+      //console.log(response.data.entries);
       setAuthorsList(response.data.entries);
     })
     .catch((error) => {

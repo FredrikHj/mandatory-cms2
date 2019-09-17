@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { objAxiosUrls } from './Repeaters.js';
 import { ProductReview } from './Reviews.js';
+import { updateShoppingBasket, currentShoppingBasket$ } from './Store.js';
 import axios from 'axios';
 let shoppingBasketArr = [];
+
 
 export let ProductDetail = (props) => {
   let [ incommingProduct, setIncomminngProduct ] = useState(null);
@@ -17,15 +19,24 @@ export let ProductDetail = (props) => {
   let [ getProductReview, setGetProductReview ] = useState(false);
   let [ productReviewShow, setProductReviewShow ] = useState('');
   let [ reviewQuantity, updateReviewQuantity ] = useState(0);
-  
-  let shoppingBasketObj = {};
+  let [ shoppingBasketObj, setShoppingBasketObj ] = useState({});
+
+  //let shoppingBasketObj = {};
   let imgChangeArrIndex = 0;
   let imgChangeNr = 1;
   
   let productId = props.match.params.id;
   
   useEffect(() => {
-    
+   currentShoppingBasket$.subscribe((currentShoppingBasket) => {
+      console.log(currentShoppingBasket);
+       if (currentShoppingBasket.length === 0) {
+         console.log('thb');
+         
+        // Emtying the shoppingBasketArr
+        shoppingBasketArr = [];
+      }
+    });
     // Get Articles
     axios.get(`${objAxiosUrls.urlGetProductList}?filter[_id]=${productId}`, {
       headers: objAxiosUrls.cockpitToken
@@ -33,6 +44,7 @@ export let ProductDetail = (props) => {
     .then(response => {
       let incommingData = response.data.entries[0];
       console.log(incommingData);
+      updateShoppingBasket(incommingData);
       setIncomminngProduct(incommingData);                          // 
       updateImgSrc(incommingData.imgesGallery[imgArrIndex].path);   // 
       updateImgesTot(incommingData.imgesGallery.length);            // 
@@ -83,11 +95,11 @@ export let ProductDetail = (props) => {
     }  
     // Reset basket
  //   for (let key in shoppingBasketObj) {
-      shoppingBasketObj = {
-        productsName: incommingProduct.name,
-        quantity: productQuantity,
-        price: parseInt(incommingProduct.price)
-      }
+        setShoppingBasketObj({
+          productsName: incommingProduct.name,
+          quantity: productQuantity,
+          price: parseInt(incommingProduct.price),
+        });
       shoppingBasketArr.push(shoppingBasketObj);
    // }
     console.log(shoppingBasketArr);
@@ -128,10 +140,12 @@ export let ProductDetail = (props) => {
   let setReviewQuantity = (quantity) => { // Fix
     updateReviewQuantity(quantity);
   }
-  
+ 
   if ( chooseBtnName === 'ProductList') return <Redirect to="/"/>;
   if ( chooseBtnName === 'ToBasket') return <Redirect to="/ShoppingBasket"/>;
-console.log(reviewQuantity);
+
+  console.log(shoppingBasketArr);
+  console.log(shoppingBasketObj);
 
   return(       
     <>

@@ -5,11 +5,9 @@ import {BehaviorSubject} from "rxjs";
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 import { CheckoutOrder } from './CheckoutOrder.js'; 
 import { objAxiosUrls } from './Repeaters.js';
+import { updateShoppingBasket } from './Store.js';
 
 //import { shoppingBasket$ } from './Store.js';
-
-
-
 
 export let ShoppingBasket = (props) => {
   let [ reRender, runReRender ] = useState(true);
@@ -35,6 +33,7 @@ export let ShoppingBasket = (props) => {
   let resetBasket = () => {
     localStorage.removeItem('shoppingBasket');
     updateIncommingProduct([]);
+    updateShoppingBasket([]);
     setReturnProductList(true);
   }
 
@@ -60,18 +59,13 @@ export let ShoppingBasket = (props) => {
     console.log(targetRemoveProductIndex);
     
     let newMBasketList = incommingProduct.splice(targetRemoveProductIndex, 1, incommingProduct.splice(targetRemoveProductIndex + 1) );
-      
-/* 
-    let basketListSlice1 = incommingProduct.slice(0, targetRemoveProductIndex);
-    let basketListSlice2 = basketListSlice1.slice(targetRemoveProductIndex + 1);
-       */
+    
     updateIncommingProduct(newMBasketList);
     let targetRemoveProductId = e.target.id;
     
   }
   if ( returnProductList === true) return <Redirect to="/"/>
-  console.log(incommingProduct.length);
-  
+
   return(      
     <>
       <Helmet>

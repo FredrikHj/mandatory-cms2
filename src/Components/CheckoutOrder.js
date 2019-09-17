@@ -92,9 +92,6 @@ export let CheckoutOrder = (props) => {
   }
   let checkoutOrderCancelBtn = () => {
     props.setReturnProductList(true);
-
-    console.log('gre');
-    
     //setGetProductReview(false);
   }
   return(

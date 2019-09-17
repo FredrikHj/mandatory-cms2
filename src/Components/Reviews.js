@@ -18,11 +18,11 @@ console.log(props.productId);
         })
         .then(response => {
             let incommingData = response.data.entries;
-            console.log(incommingData);
+            //console.log(incommingData);
             setIncommingReviews(incommingData);                          
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }, []);
      
@@ -75,7 +75,7 @@ console.log(props.productId);
                 //setIncommingReviews(incommingData);                          
             })
             .catch((error) => {
-                console.log(error);
+                //console.log(error);
             });
             props.setGetProductReview(false); //Fel = räknar ej oom antalet recensioner på rad 157 i detail
         }
@@ -84,7 +84,6 @@ console.log(props.productId);
         props.setGetProductReview(false);
     }
     props.setReviewQuantity(incommingReviews.length); // Fix
-    console.log(props.getProductReview);
     return (
         <section id="reviewContainer" style={(props.getProductReview === true) ? {display: 'block'} : {display: 'none'}} >
             <p className="headLineRewview">{'Recensioner för - ' + props.productName }  </p>
