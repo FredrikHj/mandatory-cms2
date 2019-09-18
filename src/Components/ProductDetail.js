@@ -79,10 +79,12 @@ export let ProductDetail = (props) => {
   let addToBasket = () => {
     setChooseBtn(true);
 // Fungerar inte som tänkt ==================================================
+    let found = false;
     for (let index = 0; index < shoppingBasketArr.length; index++) {
       let contentsOfObj = shoppingBasketArr[index].productsName;
       console.log(contentsOfObj);
       if (contentsOfObj === incommingProduct.name) {
+        found = true;
 
         console.log(shoppingBasketArr[index].quantity);
         shoppingBasketArr[index].quantity += productQuantity;
@@ -98,11 +100,14 @@ export let ProductDetail = (props) => {
 }
     // Reset basket
  //   for (let key in shoppingBasketObj) {
+
+  if (!found) {
       shoppingBasketObj['productsName'] = incommingProduct.name;
       shoppingBasketObj['quantity'] = productQuantity;
       shoppingBasketObj['price'] = parseInt(incommingProduct.price);
       
       shoppingBasketArr.push(shoppingBasketObj);
+  }
       // }
 // =============================================================================
   // Saving the shoppingBasketArr into localStorage
