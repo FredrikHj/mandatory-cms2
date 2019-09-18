@@ -78,38 +78,26 @@ export let ProductDetail = (props) => {
   };
   let addToBasket = () => {
     setChooseBtn(true);
-// Fungerar inte som tänkt ==================================================
-    let found = false;
+    let sameProductFound = false;
     for (let index = 0; index < shoppingBasketArr.length; index++) {
       let contentsOfObj = shoppingBasketArr[index].productsName;
-      console.log(contentsOfObj);
+      /* Check if the products is found in basket:
+       * If = Add the quantity,
+       * Else = Keep continue */
       if (contentsOfObj === incommingProduct.name) {
-        found = true;
+        sameProductFound = true;
 
         console.log(shoppingBasketArr[index].quantity);
         shoppingBasketArr[index].quantity += productQuantity;
       }
-/*       // Check if a key exist     
-      if (test in shoppingBasketObj){
-
-      }
-      else{
-        shoppingBasketObj['quantity'] = productQuantity;
-        console.log('Oförändrad'); 
-      } */  
-}
-    // Reset basket
- //   for (let key in shoppingBasketObj) {
-
-  if (!found) {
+    }
+    if (sameProductFound !== true) {
       shoppingBasketObj['productsName'] = incommingProduct.name;
       shoppingBasketObj['quantity'] = productQuantity;
       shoppingBasketObj['price'] = parseInt(incommingProduct.price);
       
       shoppingBasketArr.push(shoppingBasketObj);
-  }
-      // }
-// =============================================================================
+    }
   // Saving the shoppingBasketArr into localStorage
   window.localStorage.setItem('shoppingBasket', JSON.stringify(shoppingBasketArr));
   };

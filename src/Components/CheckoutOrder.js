@@ -85,7 +85,7 @@ export let CheckoutOrder = (props) => {
       .catch((error) => {
         //console.log(error);
       });
- 
+      localStorage.removeItem('shoppingBasket');
     }
   }
   let checkoutOrderCancelBtn = () => {
